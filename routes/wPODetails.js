@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/getwpodetails', getWPODetails);
 router.post('/addwpodetails', addWPODetails);
-router.post('/deletewpodetails', deleteWPODetails);
+router.delete('/deletewpodetails', deleteWPODetails);
 router.put('/updatewpodetails', updateWPODetails);
 
 module.exports = router;

@@ -2,13 +2,12 @@ const express = require('express');
 const dotenv = require('dotenv');
 const bodyparser = require('body-parser');
 const cors = require('cors');
+const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
 
-// Load env vars
 dotenv.config({ path: './config/.env' });
 
-// Connect to database
 connectDB();
 
 // Route files
@@ -22,8 +21,7 @@ const warehouseInventoryLog = require('./routes/warehouseInventoryLog');
 
 const app = express();
 
-// Body parser
-// app.use(express.json());
+
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
@@ -44,6 +42,8 @@ app.use('/api/warehouseprpo', warehousePRPO);
 app.use('/api/warehousepodetails', warehousePODetails);
 app.use('/api/warehouseinventory', warehouseInventory);
 app.use('/api/warehouseinventorylog', warehouseInventoryLog);
+
+app.use(errorHandler);
 
 // Set static folder
 // app.use(express.static(path.join(__dirname, 'public')));

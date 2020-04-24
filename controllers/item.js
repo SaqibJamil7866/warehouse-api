@@ -19,7 +19,6 @@ const Item = require('../models/item');
                 description,
                 subClass,
                 unit,
-                unit,
                 vendorId,
                 purchasePrice,
                 buPrice,

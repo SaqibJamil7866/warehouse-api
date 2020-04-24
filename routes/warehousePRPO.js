@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/getWhPRPO', getWhPRPO);
 router.post('/addWhPRPO', addWhPRPO);
-router.post('/deleteWhPRPO', deleteWhPRPO);
+router.delete('/deleteWhPRPO', deleteWhPRPO);
 router.put('/updateWhPRPO', updateWhPRPO);
 
 module.exports = router;

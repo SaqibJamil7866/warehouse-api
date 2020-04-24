@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/getwarehouseInventoryLog', getWhInventoryLog);
 router.post('/addwarehouseInventoryLog', addWhInventoryLog);
-router.post('/deletewarehouseInventoryLog', deleteWhInventoryLog);
+router.delete('/deletewarehouseInventoryLog', deleteWhInventoryLog);
 router.put('/updatewarehouseInventoryLog', updateWhInventoryLog);
 
 module.exports = router;

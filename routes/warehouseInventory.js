@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/getwhinventory', getWhInventory);
 router.post('/addwhinventory', addWhInventory);
-router.post('/deletewhinventory', deleteWhInventory);
+router.delete('/deletewhinventory', deleteWhInventory);
 router.put('/updatewhinventory', updateWhInventory);
 
 module.exports = router;
