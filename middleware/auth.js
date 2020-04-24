@@ -6,6 +6,10 @@ const User = require('../models/user');
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
   let token;
+  // Skip authentication when url 'login', 'logout', 'register'
+  if(req.url === '/api/auth/login' || req.url === '/api/auth/logout' || req.url === '/api/auth/register' ){
+    return next();
+  } 
 
   if (
     req.headers.authorization &&

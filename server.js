@@ -31,8 +31,12 @@ app.use(bodyparser.json());
 // Enable CORS
 app.use(cors());
 
+// Auth routes
+const { protect } = require('./middleware/auth');
+
+app.use(protect);
+
 // Mount routers
-// app.all();
 app.use('/api/auth', auth);
 app.use('/api/item', item);
 app.use('/api/vendor', vendor);
