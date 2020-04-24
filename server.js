@@ -1,9 +1,9 @@
-const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const connectDB = require('./config/db');
+
 
 // Load env vars
 dotenv.config({ path: './config/.env' });
@@ -12,6 +12,7 @@ dotenv.config({ path: './config/.env' });
 connectDB();
 
 // Route files
+const auth = require('./routes/auth');
 const item = require('./routes/item');
 const vendor = require('./routes/vendor');
 const warehousePRPO = require('./routes/warehousePRPO');
@@ -31,6 +32,8 @@ app.use(bodyparser.json());
 app.use(cors());
 
 // Mount routers
+// app.all();
+app.use('/api/auth', auth);
 app.use('/api/item', item);
 app.use('/api/vendor', vendor);
 app.use('/api/warehouseprpo', warehousePRPO);
@@ -53,8 +56,8 @@ const server = app.listen(
 );
 
 // Handle unhandled promise rejections
-// process.on('unhandledRejection', (err, promise) => {
-//   console.log(`Error: ${err.message}`.red);
-//   // Close server & exit process
-//   // server.close(() => process.exit(1));
-// });
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`Error: ${err.message}`);
+  // Close server & exit process
+  // server.close(() => process.exit(1));
+});
