@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const businessUnitSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     buName: {
         type: String
     },
@@ -9,7 +13,7 @@ const businessUnitSchema = new mongoose.Schema({
         required: [true, 'Please add description']
     },
     buHead: {
-        type: string
+        type: String
     },
     createBySystemAdminStaffId: {
         type: String

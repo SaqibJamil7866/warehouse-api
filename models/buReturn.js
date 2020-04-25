@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const buReturnSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     buId: {
         type: String
     },
@@ -8,7 +12,7 @@ const buReturnSchema = new mongoose.Schema({
         type: String
     },
     qty: {
-        type: int,
+        type: Number,
         required: [true, 'Please add quantity']
     },
     timeStamp: {

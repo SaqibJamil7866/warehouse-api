@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const lrDetailsSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     results: {
         type: String
     },

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const phrDetailsSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     phrId: {
         type: String
     },

@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const edrIprSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     patientId: {
         type: String
     },

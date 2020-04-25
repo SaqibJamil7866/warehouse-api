@@ -1,11 +1,15 @@
 const mongoose = require('mongoose');
 
 const buStockOutLogSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     itemId: {
         type: String
     },
     qty: {
-        type: int,
+        type: Number,
         required: [true, 'Please add quantity']
     },
     buId: {

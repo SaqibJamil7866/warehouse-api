@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const WarehousePRPOSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     requesterId: {
         type: String,
         required: [true, 'Please add requester id']

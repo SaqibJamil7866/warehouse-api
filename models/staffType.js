@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const staffTypeSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     type: {
         type: String,
         required: [true, 'Please add type']

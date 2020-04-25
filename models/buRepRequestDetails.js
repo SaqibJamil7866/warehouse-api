@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const buRepRequestDetailsSchema = new mongoose.Schema({
+    uuid: {
+        type: String,
+        required: [true, 'Please add a name']
+    },
     buRepRequestId: {
         type: String
     },
@@ -8,7 +12,7 @@ const buRepRequestDetailsSchema = new mongoose.Schema({
         type: String
     },
     qty: {
-        type: int
+        type: Number
     },
     createdAt: {
         type: Date,

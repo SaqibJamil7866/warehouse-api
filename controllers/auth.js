@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const User = require('../models/user');
@@ -10,6 +11,7 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   // Create user
   const user = await User.create({
+    uuid : uuidv4(),
     name,
     email,
     password
@@ -23,11 +25,6 @@ exports.register = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-
-  // Validate emil & password
-  if (!email || !password) {
-    return next(new ErrorResponse('Please provide an email and password', 400));
-  }
 
   // Check for user
   const user = await User.findOne({ email }).select('+password');
