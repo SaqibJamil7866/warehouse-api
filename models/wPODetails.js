@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const WPODetailsSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     warehousePOId: {
         type: String
@@ -15,6 +14,10 @@ const WPODetailsSchema = new mongoose.Schema({
         type: Number
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

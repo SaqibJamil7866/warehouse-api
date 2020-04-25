@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const phrDetailsSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     phrId: {
         type: String
@@ -21,6 +20,10 @@ const phrDetailsSchema = new mongoose.Schema({
         type: Number
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

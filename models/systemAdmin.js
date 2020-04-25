@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const systemAdminSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     username: {
         type: String,
@@ -14,6 +13,10 @@ const systemAdminSchema = new mongoose.Schema({
         required: [true, 'Please add password']
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

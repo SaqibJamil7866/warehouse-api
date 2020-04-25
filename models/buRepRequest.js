@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const buRepRequestSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     buId: {
         type: String
@@ -20,6 +19,10 @@ const buRepRequestSchema = new mongoose.Schema({
         required: [true, 'Please add status'],
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

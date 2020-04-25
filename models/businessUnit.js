@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const businessUnitSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     buName: {
         type: String
@@ -23,6 +22,10 @@ const businessUnitSchema = new mongoose.Schema({
         default: Date.now
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

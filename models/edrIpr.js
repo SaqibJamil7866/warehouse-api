@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const edrIprSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     patientId: {
         type: String
@@ -47,6 +46,10 @@ const edrIprSchema = new mongoose.Schema({
         type: String
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

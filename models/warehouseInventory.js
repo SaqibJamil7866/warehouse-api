@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const WarehouseInventorySchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     itemId: {
         type: String
@@ -12,6 +11,10 @@ const WarehouseInventorySchema = new mongoose.Schema({
         type: Number
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

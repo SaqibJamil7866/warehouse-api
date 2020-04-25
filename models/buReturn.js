@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const buReturnSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     buId: {
         type: String
@@ -30,6 +29,10 @@ const buReturnSchema = new mongoose.Schema({
         type: String
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

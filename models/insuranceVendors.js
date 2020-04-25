@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const insuranceVendorsSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     name: {
         type: String
@@ -36,6 +35,10 @@ const insuranceVendorsSchema = new mongoose.Schema({
         type: String
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

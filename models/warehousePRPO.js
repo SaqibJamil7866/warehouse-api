@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const WarehousePRPOSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     requesterId: {
         type: String,
@@ -24,6 +23,10 @@ const WarehousePRPOSchema = new mongoose.Schema({
         default: Date.now
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

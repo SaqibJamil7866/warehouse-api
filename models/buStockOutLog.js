@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const buStockOutLogSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     itemId: {
         type: String
@@ -30,6 +29,10 @@ const buStockOutLogSchema = new mongoose.Schema({
         required: [true, 'Please add sale price'],
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

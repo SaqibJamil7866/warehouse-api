@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     name: {
         type: String,
@@ -41,6 +40,10 @@ const itemSchema = new mongoose.Schema({
         required: [true, 'Please add bar code'],
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }

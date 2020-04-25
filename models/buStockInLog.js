@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 
 const buStockInLogSchema = new mongoose.Schema({
     uuid: {
-        type: String,
-        required: [true, 'Please add a name']
+        type: String
     },
     buRepRequestId: {
         type: String
@@ -12,7 +11,7 @@ const buStockInLogSchema = new mongoose.Schema({
         type: String
     },
     qty: {
-        type: int,
+        type: Number,
         required: [true, 'Please add quantity']
     },
     buPrice: {
@@ -38,6 +37,10 @@ const buStockInLogSchema = new mongoose.Schema({
         type: String
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }
