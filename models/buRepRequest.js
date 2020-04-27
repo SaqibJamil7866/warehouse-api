@@ -14,7 +14,7 @@ const buRepRequestSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    Status: {
+    status: {
         type: String,
         required: [true, 'Please add status'],
     },

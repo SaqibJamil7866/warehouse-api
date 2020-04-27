@@ -25,7 +25,7 @@ const buStockOutLogSchema = new mongoose.Schema({
         type: String
     },
     salePrice: {
-        type: String,
+        type: Number,
         required: [true, 'Please add sale price'],
     },
     createdAt: {

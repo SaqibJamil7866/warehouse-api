@@ -15,11 +15,11 @@ const buStockInLogSchema = new mongoose.Schema({
         required: [true, 'Please add quantity']
     },
     buPrice: {
-        type: String,
+        type: Number,
         required: [true, 'Please add BU price']
     },
     salePrice: {
-        type: String,
+        type: Number,
         required: [true, 'Please add sale price'],
     },
     batchNo: {

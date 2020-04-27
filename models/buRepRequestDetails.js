@@ -11,7 +11,8 @@ const buRepRequestDetailsSchema = new mongoose.Schema({
         type: String
     },
     qty: {
-        type: Number
+        type: Number,
+        required: [true, 'Please enter quantity'],
     },
     createdAt: {
         type: Date,

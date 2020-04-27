@@ -11,7 +11,8 @@ const buInventorySchema = new mongoose.Schema({
         type: String
     },
     qty: {
-        type: Number
+        type: Number,
+        required: [true, 'Please add qty']
     },
     createdAt: {
         type: Date,
