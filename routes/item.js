@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.get('/getitems', getItems);
 router.post('/additem', addItem);
-router.delete('/deleteItem', deleteItem);
-router.put('/updateItem', updateItem);
+router.delete('/deleteitem/:_id', deleteItem);
+router.put('/updateitem', updateItem);
 
 module.exports = router;

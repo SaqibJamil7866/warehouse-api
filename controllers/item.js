@@ -28,8 +28,7 @@
     });
 
     exports.deleteItem = asyncHandler(async (req, res, next) => {
-        const { _id } = req.body;
-
+        const { _id } = req.params;
         const item = await Item.findById(_id);
 
         if(!item) {
