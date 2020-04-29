@@ -1,4 +1,4 @@
-const WhInventoryLog = require('../models/warehouseInventoryLog');
+    const WhInventoryLog = require('../models/warehouseInventoryLog');
 
     exports.getWhInventoryLog = (req, res, next) => {
         try {

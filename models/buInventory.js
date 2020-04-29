@@ -5,7 +5,9 @@ const buInventorySchema = new mongoose.Schema({
         type: String
     },
     buId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnit',
+        required: [true, 'Please select Business Unit']
     },
     itemId: {
         type: mongoose.Schema.ObjectId,

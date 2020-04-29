@@ -2,11 +2,19 @@ const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const BuRepRequestDetails = require('../models/buRepRequestDetails');
+const Items = require('../models/item');
+const BuRepRequest = require('../models/buRepRequest');
 
 exports.getBuRepRequestDetails = asyncHandler(async (req, res) => {
     const buRepRequestDetails = await BuRepRequestDetails.find().populate('itemId').populate('buRepRequestId');
-    
-    res.status(200).json({ success: true, data: buRepRequestDetails });
+    const items = await Items.find();
+    const buRepRequest = await BuRepRequest.find();
+    const data ={
+      buRepRequestDetails,
+      items,
+      buRepRequest
+    }
+    res.status(200).json({ success: true, data: data });
 });
 
 exports.addBuRepRequestDetails = asyncHandler(async (req, res) => {

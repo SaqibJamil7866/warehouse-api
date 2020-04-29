@@ -5,7 +5,9 @@ const WarehouseInventorySchema = new mongoose.Schema({
         type: String
     },
     itemId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item',
+        required: [true, 'Please select Item']
     },
     qty: {
         type: Number

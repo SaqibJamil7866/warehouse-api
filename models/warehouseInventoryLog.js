@@ -8,7 +8,9 @@ const warehouseInventoryLogSchema = new mongoose.Schema({
         type: String
     },
     itemId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item',
+        required: [true, 'Please select Item']
     },
     purchasePrice: {
         type: String,
@@ -38,7 +40,9 @@ const warehouseInventoryLogSchema = new mongoose.Schema({
         default: Date.now
     },
     staffId: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Staff']
     },
     rating: {
         type: String,

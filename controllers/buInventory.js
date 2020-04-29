@@ -3,13 +3,16 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const BuInventory = require('../models/buInventory');
 const Items = require('../models/item');
+const BusinessUnit = require('../models/businessUnit');
 
 exports.getBuInventory = asyncHandler(async (req, res) => {
-    const buInventory = await BuInventory.find().populate('itemId');
+    const buInventory = await BuInventory.find().populate('itemId').populate('buId');
     const items = await Items.find();
+    const businessUnit = await BusinessUnit.find();
     const data = {
       buInventory,
-      items
+      items,
+      businessUnit
     }
     res.status(200).json({ success: true, data: data });
 });

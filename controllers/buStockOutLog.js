@@ -2,11 +2,22 @@ const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const BuStockOutLog = require('../models/buStockOutLog');
+const Items = require('../models/item');
+const BusinessUnit = require('../models/businessUnit');
+const Staff = require('../models/staff');
 
 exports.getBuStockOutLog = asyncHandler(async (req, res) => {
     const buStockOutLog = await BuStockOutLog.find().populate('buId').populate('itemId').populate('staffId');
-    
-    res.status(200).json({ success: true, data: buStockOutLog });
+    const items = await Items.find();
+    const businessUnit = await BusinessUnit.find();
+    const staff = await Staff.find();
+    const data = {
+      buStockOutLog,
+      items,
+      businessUnit,
+      staff
+    }
+    res.status(200).json({ success: true, data: data });
 });
 
 exports.addBuStockOutLog = asyncHandler(async (req, res) => {
