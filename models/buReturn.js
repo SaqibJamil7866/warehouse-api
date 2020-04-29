@@ -8,7 +8,9 @@ const buReturnSchema = new mongoose.Schema({
         type: String
     },
     itemId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item',
+        required: [true, 'Please select item']
     },
     qty: {
         type: Number,
@@ -26,7 +28,9 @@ const buReturnSchema = new mongoose.Schema({
         type: String
     },
     staffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Staff']
     },
     createdAt: {
         type: Date,

@@ -21,7 +21,9 @@ const staffTypeSchema = new mongoose.Schema({
         required: [true, 'Please add status']
     },
     createdBySystemAdminStaffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'systemAdmin',
+        required: [true, 'Please select System admin']
     },
     timeStamp: {
         type: Date,

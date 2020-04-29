@@ -4,7 +4,7 @@ const asyncHandler = require('../middleware/async');
 const BuStockOutLog = require('../models/buStockOutLog');
 
 exports.getBuStockOutLog = asyncHandler(async (req, res) => {
-    const buStockOutLog = await BuStockOutLog.find();
+    const buStockOutLog = await BuStockOutLog.find().populate('buId').populate('itemId').populate('staffId');
     
     res.status(200).json({ success: true, data: buStockOutLog });
 });

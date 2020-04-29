@@ -5,10 +5,14 @@ const buRepRequestSchema = new mongoose.Schema({
         type: String
     },
     buId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnit',
+        required: [true, 'Please select Business unit']
     },
     requesterStaffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Staff']
     },
     timeStamp: {
         type: Date,

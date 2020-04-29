@@ -5,10 +5,14 @@ const buStockInLogSchema = new mongoose.Schema({
         type: String
     },
     buRepRequestId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'buRepRequest',
+        required: [true, 'Please select Bu Rep Request']
     },
     itemId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item',
+        required: [true, 'Please select Item']
     },
     qty: {
         type: Number,
@@ -34,7 +38,9 @@ const buStockInLogSchema = new mongoose.Schema({
         default: Date.now
     },
     staffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Staff']
     },
     createdAt: {
         type: Date,

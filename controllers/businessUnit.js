@@ -4,7 +4,7 @@ const asyncHandler = require('../middleware/async');
 const BusinessUnit = require('../models/businessUnit');
 
 exports.getBusinessUnit = asyncHandler(async (req, res) => {
-    const businessUnit = await BusinessUnit.find();
+    const businessUnit = await BusinessUnit.find().populate('createBySystemAdminStaffId');
     
     res.status(200).json({ success: true, data: businessUnit });
 });

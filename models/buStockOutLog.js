@@ -5,14 +5,18 @@ const buStockOutLogSchema = new mongoose.Schema({
         type: String
     },
     itemId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item',
+        required: [true, 'Please select Item']
     },
     qty: {
         type: Number,
         required: [true, 'Please add quantity']
     },
     buId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnit',
+        required: [true, 'Please select Business Unit']
     },
     timeStamp: {
         type: Date,
@@ -22,7 +26,9 @@ const buStockOutLogSchema = new mongoose.Schema({
         type: String
     },
     staffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Staff']
     },
     salePrice: {
         type: Number,

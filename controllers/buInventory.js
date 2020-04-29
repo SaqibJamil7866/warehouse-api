@@ -4,7 +4,7 @@ const asyncHandler = require('../middleware/async');
 const BuInventory = require('../models/buInventory');
 
 exports.getBuInventory = asyncHandler(async (req, res) => {
-    const buInventory = await BuInventory.find();
+    const buInventory = await BuInventory.find().populate('itemId');
     
     res.status(200).json({ success: true, data: buInventory });
 });

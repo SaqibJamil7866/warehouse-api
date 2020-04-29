@@ -5,7 +5,9 @@ const staffSchema = new mongoose.Schema({
         type: String
     },
     staffTypeId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'staffType',
+        required: [true, 'Please select System type']
     },
     firstName: {
         type: String,
@@ -49,7 +51,9 @@ const staffSchema = new mongoose.Schema({
         required: [true, 'Please add address']
     },
     createdBySystemAdminStaffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'systemAdmin',
+        required: [true, 'Please select System admin']
     },
     timeStamp: {
         type: Date,

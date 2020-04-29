@@ -5,10 +5,14 @@ const buRepRequestDetailsSchema = new mongoose.Schema({
         type: String
     },
     buRepRequestId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'buRepRequest',
+        required: [true, 'Please select Bu Rep Request']
     },
     itemId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Item',
+        required: [true, 'Please select item']
     },
     qty: {
         type: Number,

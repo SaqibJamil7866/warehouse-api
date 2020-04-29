@@ -15,7 +15,9 @@ const businessUnitSchema = new mongoose.Schema({
         type: String
     },
     createBySystemAdminStaffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'systemAdmin',
+        required: [true, 'Please select System admin']
     },
     timeStamp: {
         type: Date,

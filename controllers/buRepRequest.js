@@ -4,8 +4,7 @@ const asyncHandler = require('../middleware/async');
 const BuRepRequest = require('../models/buRepRequest');
 
 exports.getBuRepRequest = asyncHandler(async (req, res) => {
-    const buRepRequest = await BuRepRequest.find();
-    
+    const buRepRequest = await BuRepRequest.find().populate('buId').populate('requesterStaffId');
     res.status(200).json({ success: true, data: buRepRequest });
 });
 

@@ -4,7 +4,7 @@ const asyncHandler = require('../middleware/async');
 const BuReturn = require('../models/buReturn');
 
 exports.getBuReturn = asyncHandler(async (req, res) => {
-    const buReturn = await BuReturn.find();
+    const buReturn = await BuReturn.find().populate("itemId").populate("staffId");
     
     res.status(200).json({ success: true, data: buReturn });
 });
