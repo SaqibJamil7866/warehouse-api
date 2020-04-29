@@ -5,7 +5,9 @@ const buReturnSchema = new mongoose.Schema({
         type: String
     },
     buId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnit',
+        required: [true, 'Please select Business unit']
     },
     itemId: {
         type: mongoose.Schema.ObjectId,

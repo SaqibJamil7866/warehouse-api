@@ -4,15 +4,18 @@ const asyncHandler = require('../middleware/async');
 const BuReturn = require('../models/buReturn');
 const Items = require('../models/item');
 const Staff = require('../models/staff');
+const BusinessUnit = require('../models/businessUnit');
 
 exports.getBuReturn = asyncHandler(async (req, res) => {
-    const buReturn = await BuReturn.find().populate("itemId").populate("staffId");
+    const buReturn = await BuReturn.find().populate("itemId").populate("staffId").populate("buId");
     const items = await Items.find();
     const staff = await Staff.find();
+    const businessUnit = await BusinessUnit.find();
     const data = {
       buReturn,
       items,
-      staff
+      staff,
+      businessUnit
     }
     res.status(200).json({ success: true, data: data });
 });
