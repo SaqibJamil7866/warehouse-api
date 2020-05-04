@@ -1,64 +1,69 @@
-const Vendor = require('../models/vendor');
+    const { v4: uuidv4 } = require('uuid');
+    const ErrorResponse = require('../utils/errorResponse');
+    const asyncHandler = require('../middleware/async');
+    const Vendor = require('../models/vendor');
+    const SystemAdmin = require('../models/systemAdmin');
 
-    exports.getVendors = (req, res, next) => {
-        try {
-            Vendor.find().then(function(data, err){
-                if(err) throw err;
-                res.status(200).send({success:true, data: data , message: "Vendors fetched successfully" });
-            })
-        } catch (e) {
-            res.status(400).send({success:false, message: "Error getting vendors!", error: e.toString()});
+    exports.getVendors = asyncHandler(async (req, res) => {
+        const vendor = await Vendor.find().populate('createdBySystemAdminStaffId');
+        const systemAdmin = await SystemAdmin.find();
+        const data = {
+            vendor,
+            systemAdmin
         }
-    };
-
-    exports.addVendor = (req, res, next) => {
-        const { name, phoneNumber, status, address, fax, email, contactPerson, createdBySystemAdminStaffId,
-            review, timeStamp, rating } = req.body;
         
-        try{
-            Vendor.create({
-                name,
-                phoneNumber,
-                status,
-                address,
-                fax,
-                email,
-                contactPerson,
-                createdBySystemAdminStaffId,
-                review,
-                timeStamp,
-                rating
-            }).then((response, err) => {
-                if(err) throw err;
-                res.status(200).send({ success: true, message: "Vendor added successfully"});
-            });
-        }
-        catch(e){
-            res.status(400).send({success:false, message: "Error adding vendor!", error: e.toString()});
-        }
-    };
+        res.status(200).json({ success: true, data: data });
+    });
 
-    exports.deleteVendor = (req, res, next) => {
-        const { _id } = req.body;
+    exports.addVendor = asyncHandler(async (req, res) => {
+        const { name, phoneNumber, status, address, fax, email, contactPerson, createdBySystemAdminStaffId,
+          review, timeStamp, rating } = req.body;
+        const vendor = await Vendor.create({
+          uuid: uuidv4(),
+          name,
+          phoneNumber,
+          status,
+          address,
+          fax,
+          email,
+          contactPerson,
+          createdBySystemAdminStaffId,
+          review,
+          timeStamp,
+          rating
+        })
 
-        try{
-            Vendor.deleteOne({_id: _id}).then(function(response, err){
-                if(err) throw err;
-                res.status(200).send({success:true, message: "Vendor deleted successfully" });
-            })
-        } catch(e) {
-            res.status(400).send({success:false, message: "Error deleting vendor!", error: e.toString()});
-        }
-    };
+        res.status(200).json({ success: true, data: vendor });
+    });
 
-    exports.updateVendor = (req, res, next) => {
-        const { _id } = req.body;
+    exports.deleteVendor = asyncHandler(async (req, res, next) => {
+      const { _id } = req.params;
+      const vendor = await Vendor.findById(_id);
 
-        try {
-            Vendor.updateOne({_id: _id}, req.body).then(function(){
-                res.status(200).send({success:true, message: "Vendor update successfully" });
-            })
-        } catch (e) {
-            res.status(400).send({success:false, message: "Error deleting vendor!", error: e.toString()});
-        }
-    };
+      if(!vendor) {
+        return next(
+          new ErrorResponse(`Vendor not found with id of ${_id}`, 404)
+        );
+      }
+
+      await Vendor.deleteOne({_id: _id});
+
+      res.status(200).json({ success: true, data: {} });
+
+    });
+
+    exports.updateVendor = asyncHandler(async (req, res, next) => {
+      const { _id } = req.body;
+
+      let vendor = await Vendor.findById(_id);
+
+      if(!vendor) {
+        return next(
+          new ErrorResponse(`Vendor not found with id of ${_id}`, 404)
+        );
+      }
+
+      vendor = await Vendor.updateOne({_id: _id}, req.body);
+
+      res.status(200).json({ success: true, data: vendor });
+    });

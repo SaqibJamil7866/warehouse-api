@@ -9,20 +9,16 @@ const VendorSchema = new mongoose.Schema({
         required: [true, 'Please add name']
     },
     phoneNumber: {
-        type: String,
-        required: [true, 'Please add phone number']
+        type: String
     },
     status: {
-        type: String,
-        required: [true, 'Please add status']
+        type: String
     },
     address: {
-        type: String,
-        required: [true, 'Please add address']
+        type: String
     },
     fax: {
-        type: String,
-        required: [true, 'Please add fax']
+        type: String
     },
     email: {
         type: String,
@@ -38,7 +34,9 @@ const VendorSchema = new mongoose.Schema({
         required: [true, 'Please add contact person'],
     },
     createdBySystemAdminStaffId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'systemAdmin',
+        required: [true, 'Please select System Admin']
     },
     review: {
         type: String,

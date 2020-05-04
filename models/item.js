@@ -21,7 +21,9 @@ const itemSchema = new mongoose.Schema({
         required: [true, 'Please add unit']
     },
     vendorId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'Vendor',
+        required: [true, 'Please select Vendor']
     },
     purchasePrice: {
         type: String,

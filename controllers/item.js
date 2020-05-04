@@ -2,11 +2,17 @@
     const ErrorResponse = require('../utils/errorResponse');
     const asyncHandler = require('../middleware/async');
     const Item = require('../models/item');
+    const Vendor = require('../models/vendor');
 
-    exports.getItems = asyncHandler(async (req, res, next) => {
-        const items = await Item.find();
-        
-        res.status(200).json({ success: true, data: items });
+    exports.getItems = asyncHandler(async (req, res) => {
+      const items = await Item.find().populate('vendorId');
+      const vendors = await Vendor.find();
+      const data ={
+        items,
+        vendors
+      }
+      
+      res.status(200).json({ success: true, data: data });
     });
 
     exports.addItem = asyncHandler(async (req, res, next) => {

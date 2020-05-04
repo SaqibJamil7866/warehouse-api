@@ -18,12 +18,12 @@ exports.getBuRepRequest = asyncHandler(async (req, res) => {
 });
 
 exports.addBuRepRequest = asyncHandler(async (req, res) => {
-    const { buId, itemId, qty, status } = req.body;
+    const { buId, timeStamp, requesterStaffId, status } = req.body;
     const buRepRequest = await BuRepRequest.create({
         uuid: uuidv4(),
         buId,
-        itemId,
-        qty,
+        timeStamp,
+        requesterStaffId,
         status
     });
 
