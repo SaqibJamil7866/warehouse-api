@@ -9,37 +9,39 @@ const itemSchema = new mongoose.Schema({
         required: [true, 'Please add name']
     },
     description: {
-        type: String,
-        required: [true, 'Please add description']
+        type: String
     },
     subClass: {
-        type: String,
-        required: [true, 'Please add sub class']
+        type: String
     },
-    unit: {
+    itemCode: {
+        type: String,
+        required: [true, 'Please add bar code'],
+    },
+    receiptUnit: {
+        type: String,
+        required: [true, 'Please add unit']
+    },
+    issueUnit: {
         type: String,
         required: [true, 'Please add unit']
     },
     vendorId: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Vendor',
-        required: [true, 'Please select Vendor']
+        ref: 'Vendor'
     },
     purchasePrice: {
         type: String,
         required: [true, 'Please add purchase price'],
     },
-    buPrice: {
-        type: String,
-        required: [true, 'Please add BU price'],
+    minimumOrder: {
+        type: String
     },
-    salePrice: {
-        type: String,
-        required: [true, 'Please add sale price'],
+    maximumOrder: {
+        type: String
     },
-    barCode: {
-        type: String,
-        required: [true, 'Please add bar code'],
+    reorderLevel: {
+        type: String
     },
     createdAt: {
         type: Date,

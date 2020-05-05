@@ -2,38 +2,36 @@
     const ErrorResponse = require('../utils/errorResponse');
     const asyncHandler = require('../middleware/async');
     const Vendor = require('../models/vendor');
-    const SystemAdmin = require('../models/systemAdmin');
 
     exports.getVendors = asyncHandler(async (req, res) => {
-        const vendor = await Vendor.find().populate('createdBySystemAdminStaffId');
-        const systemAdmin = await SystemAdmin.find();
-        const data = {
-            vendor,
-            systemAdmin
-        }
-        
-        res.status(200).json({ success: true, data: data });
+      const vendor = await Vendor.find();
+      const data = {
+        vendor
+      }
+      
+      res.status(200).json({ success: true, data: data });
     });
 
     exports.addVendor = asyncHandler(async (req, res) => {
-        const { name, phoneNumber, status, address, fax, email, contactPerson, createdBySystemAdminStaffId,
-          review, timeStamp, rating } = req.body;
-        const vendor = await Vendor.create({
-          uuid: uuidv4(),
-          name,
-          phoneNumber,
-          status,
-          address,
-          fax,
-          email,
-          contactPerson,
-          createdBySystemAdminStaffId,
-          review,
-          timeStamp,
-          rating
-        })
 
-        res.status(200).json({ success: true, data: vendor });
+      const { name,contactPerson, phoneNumber, website, address, zipCode, city, country,
+        shippingTerms, rating, status } = req.body;
+      const vendor = await Vendor.create({
+        uuid: uuidv4(),
+        name,
+        contactPerson,
+        phoneNumber,
+        website,
+        address,
+        zipCode,
+        city,
+        country,
+        shippingTerms,
+        rating,
+        status
+      });
+
+      res.status(200).json({ success: true, data: vendor });
     });
 
     exports.deleteVendor = asyncHandler(async (req, res, next) => {

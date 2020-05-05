@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const businessUnitSchema = new mongoose.Schema({
+const functionalUnitSchema = new mongoose.Schema({
     uuid: {
         type: String
     },
-    buName: {
+    fuName: {
         type: String,
         required: [true, 'Please add name']
     },
@@ -12,13 +12,8 @@ const businessUnitSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add description']
     },
-    buHead: {
+    fuHead: {
         type: String
-    },
-    functionalUnitId: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'functionalUnit',
-        required: [true, 'Please select Functional Unit']
     },
     status: {
         type: String
@@ -33,4 +28,4 @@ const businessUnitSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('businessUnit', businessUnitSchema);
+module.exports = mongoose.model('functionalUnit', functionalUnitSchema);

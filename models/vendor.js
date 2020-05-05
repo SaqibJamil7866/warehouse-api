@@ -8,45 +8,36 @@ const VendorSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add name']
     },
+    contactPerson: {
+        type: String,
+        required: [true, 'Please add contact person'],
+    },
     phoneNumber: {
         type: String
     },
-    status: {
+    website: {
         type: String
     },
     address: {
         type: String
     },
-    fax: {
+    zipCode: {
         type: String
     },
-    email: {
+    city: {
+        type: String
+    },
+    country: {
+        type: String
+    },
+    shippingTerms: {
         type: String,
-        required: [true, 'Please add an email'],
-        unique: true,
-        match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Please add a valid email'
-        ]
-    },
-    contactPerson: {
-        type: String,
-        required: [true, 'Please add contact person'],
-    },
-    createdBySystemAdminStaffId: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'systemAdmin',
-        required: [true, 'Please select System Admin']
-    },
-    review: {
-        type: String,
-        required: [true, 'Please add review'],
-    },
-    timeStamp: {
-        type: Date,
-        default: Date.now
+        required: [true, 'Please add shipping terms'],
     },
     rating: {
+        type: String,
+    },
+    status: {
         type: String,
     },
     createdAt: {

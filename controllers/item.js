@@ -16,21 +16,24 @@
     });
 
     exports.addItem = asyncHandler(async (req, res, next) => {
-        const { name, description, subClass, unit, vendorId, purchasePrice, buPrice, salePrice, barCode } = req.body;
-        const item = await Item.create({
-            uuid: uuidv4(),
-            name,
-            description,
-            subClass,
-            unit,
-            vendorId,
-            purchasePrice,
-            buPrice,
-            salePrice,
-            barCode
-        });
+      const { name, description, subClass, itemCode, vendorId, purchasePrice, receiptUnit, issueUnit, minimumOrder,
+        maximumOrder, reorderLevel } = req.body;
+      const item = await Item.create({
+        uuid: uuidv4(),
+        name,
+        description,
+        subClass,
+        itemCode,
+        vendorId,
+        purchasePrice,
+        receiptUnit,
+        issueUnit,
+        minimumOrder,
+        maximumOrder,
+        reorderLevel
+      });
 
-        res.status(200).json({ success: true, data: item });
+      res.status(200).json({ success: true, data: item });
     });
 
     exports.deleteItem = asyncHandler(async (req, res, next) => {

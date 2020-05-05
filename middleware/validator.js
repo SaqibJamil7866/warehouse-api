@@ -10,10 +10,10 @@ const validateParams = function (requestParams) {
                         `${typeof reqParam} but should be ${param.type}`
                     });
                 } else if (!runValidators(reqParam, param)) {
-                        return res.status(400).send({
-                            status: 400,
-                            result: `Validation failed for ${param.param_key}`
-                        });
+                    return res.status(400).send({
+                        status: 400,
+                        result: `Validation failed for ${param.param_key}`
+                    });
                 }
             } else if (param.required){
                 return res.status(400).send({
@@ -36,9 +36,11 @@ const checkParamType = function (reqParam, paramObj) {
 };
 
 const runValidators = function (reqParam, paramObj) {
-    for (const validator of paramObj.validator_functions) {
-        if (!validator(reqParam)) {
-            return false
+    if(paramObj.validator_functions){
+        for (const validator of paramObj.validator_functions) {
+            if (!validator(reqParam)) {
+                return false
+            }
         }
     }
     return true;

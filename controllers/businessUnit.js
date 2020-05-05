@@ -2,27 +2,27 @@ const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const BusinessUnit = require('../models/businessUnit');
-const SystemAdmin = require('../models/systemAdmin');
+const FunctionalUnit = require('../models/functionalUnit');
 
 exports.getBusinessUnit = asyncHandler(async (req, res) => {
-    const businessUnit = await BusinessUnit.find().populate('createBySystemAdminStaffId');
-    const systemAdmin = await SystemAdmin.find();
+    const businessUnit = await BusinessUnit.find().populate('functionalUnitId');
+    const functionalUnit = await FunctionalUnit.find();
     const data = {
       businessUnit,
-      systemAdmin
+      functionalUnit
     }
     res.status(200).json({ success: true, data: data });
 });
 
 exports.addBusinessUnit = asyncHandler(async (req, res) => {
-    const { buName, description, buHead, createBySystemAdminStaffId, timeStamp } = req.body;
+    const { buName, description, buHead, functionalUnitId, status } = req.body;
     const businessUnit = await BusinessUnit.create({
         uuid: uuidv4(),
         buName,
         description,
         buHead,
-        createBySystemAdminStaffId,
-        timeStamp
+        functionalUnitId,
+        status
     });
 
     res.status(200).json({ success: true, data: businessUnit });

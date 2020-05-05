@@ -1,5 +1,5 @@
 const express = require('express');
-const { validateParams } = require('../middleware/validator')
+const { validateParams } = require('../middleware/validator');
 const {
   register,
   login,

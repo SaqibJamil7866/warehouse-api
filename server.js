@@ -2,9 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const bodyparser = require('body-parser');
 const cors = require('cors');
+const WebSocketServer = require("websocket").server;
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
+let connection = null;
 
 dotenv.config({ path: './config/.env' });
 
@@ -16,6 +18,7 @@ const item = require('./routes/item');
 const vendor = require('./routes/vendor');
 const buInventory = require('./routes/buInventory');
 const buRepRequest = require('./routes/buRepRequest');
+const functionalUnit = require('./routes/functionalUnit');
 const buReturn = require('./routes/buReturn');
 const businessUnit = require('./routes/businessUnit');
 const buStockInLog = require('./routes/buStockInLog');
@@ -50,6 +53,7 @@ app.use('/api/item', item);
 app.use('/api/vendor', vendor);
 app.use('/api/buinventory', buInventory);
 app.use('/api/bureprequest', buRepRequest);
+app.use('/api/functionalunit', functionalUnit);
 app.use('/api/bureturn', buReturn);
 app.use('/api/businessunit', businessUnit);
 app.use('/api/bustockinlog', buStockInLog);
@@ -85,3 +89,30 @@ process.on('unhandledRejection', (err, promise) => {
   // Close server & exit process
   // server.close(() => process.exit(1));
 });
+
+
+ // pass the server object to the WebSocketServer library to do all the job, this class will override the req/res 
+ const websocket = new WebSocketServer({
+  "httpServer": server
+})
+
+
+// when a legit websocket request comes listen to it and get the connection .. once you get a connection thats it! 
+websocket.on("request", request=> {
+
+  connection = request.accept(null, request.origin)
+  connection.on("open", () => console.log("Opened!!!"))
+  connection.on("close", () => console.log("CLOSED!!!"))
+  connection.on("message", message => {
+    console.log(`Received message ${message.utf8Data}`)
+    connection.send(`got your message: ${message.utf8Data}`)
+  })
+
+  // use connection.send to send stuff to the client 
+  sendevery5seconds();
+})
+
+function sendevery5seconds(){
+  connection.send(`Message ${Math.random()}`);
+  setTimeout(sendevery5seconds, 5000);
+}
