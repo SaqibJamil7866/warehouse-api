@@ -105,7 +105,13 @@ websocket.on("request", request=> {
   connection.on("close", () => console.log("CLOSED!!!"))
   connection.on("message", message => {
     console.log(`Received message ${message.utf8Data}`)
-    connection.send(`got your message: ${message.utf8Data}`)
+    if(message.utf8Data === 'add_vendor'){
+      setTimeout(function(){
+        connection.send(message.utf8Data);
+      }, 500);
+    }else{
+      connection.send(`got your message: ${message.utf8Data}`);
+    }
   })
 
   // use connection.send to send stuff to the client 
@@ -114,5 +120,5 @@ websocket.on("request", request=> {
 
 function sendevery5seconds(){
   connection.send(`Message ${Math.random()}`);
-  setTimeout(sendevery5seconds, 5000);
+  setTimeout(sendevery5seconds, 10000);
 }

@@ -4,7 +4,7 @@ const asyncHandler = require('../middleware/async');
 const StaffType = require('../models/staffType');
 
 exports.getStaffType = asyncHandler(async (req, res) => {
-    const staffType = await StaffType.find().populate('createdBySystemAdminStaffId');;
+    const staffType = await StaffType.find().populate('createdBySystemAdminStaffId');
     
     res.status(200).json({ success: true, data: staffType });
 });

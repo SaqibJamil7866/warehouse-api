@@ -25,8 +25,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'Please add a password'],
     minlength: 6
   },
-  userType:{
-    type: String
+  staffTypeId:{
+    type: mongoose.Schema.ObjectId,
+    ref: 'staffType',
+    required: [true, 'Please select Staff type']
   },
   resetPasswordToken: String,
   resetPasswordExpire: Date,

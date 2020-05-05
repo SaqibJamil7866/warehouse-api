@@ -7,14 +7,15 @@ const User = require('../models/user');
 // @route     POST /api/auth/register
 // @access    Public
 exports.register = asyncHandler(async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, staffTypeId } = req.body;
 
   // Create user
   const user = await User.create({
     uuid : uuidv4(),
     name,
     email,
-    password
+    password,
+    staffTypeId
   });
 
   sendTokenResponse(user, 200, res);
@@ -27,7 +28,8 @@ exports.login = asyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
 
   // Check for user
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ email }).populate('staffTypeId');
+  console.log("user: ", user);
 
   if (!user) {
     return next(new ErrorResponse('Invalid credentials', 401));
@@ -39,7 +41,6 @@ exports.login = asyncHandler(async (req, res, next) => {
   if (!isMatch) {
     return next(new ErrorResponse('Invalid credentials', 401));
   }
-
   sendTokenResponse(user, 200, res);
 });
 
@@ -86,11 +87,13 @@ const sendTokenResponse = (user, statusCode, res) => {
     options.secure = true;
   }
 
-  res
-    .status(statusCode)
-    .cookie('token', token, options)
+  const data = {
+    token,
+    user
+  }
+  res.status(statusCode).cookie('token', token, options)
     .json({
       success: true,
-      token
+      data
     });
 };

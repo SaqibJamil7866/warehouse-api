@@ -31,8 +31,7 @@ const VendorSchema = new mongoose.Schema({
         type: String
     },
     shippingTerms: {
-        type: String,
-        required: [true, 'Please add shipping terms'],
+        type: String
     },
     rating: {
         type: String,

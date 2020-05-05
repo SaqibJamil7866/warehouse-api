@@ -26,7 +26,7 @@
         zipCode,
         city,
         country,
-        shippingTerms,
+        // shippingTerms,
         rating,
         status
       });
@@ -37,7 +37,6 @@
     exports.deleteVendor = asyncHandler(async (req, res, next) => {
       const { _id } = req.params;
       const vendor = await Vendor.findById(_id);
-
       if(!vendor) {
         return next(
           new ErrorResponse(`Vendor not found with id of ${_id}`, 404)

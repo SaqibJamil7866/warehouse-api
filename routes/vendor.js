@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 
 
-router.get('/getvendors', authorize('admin') ,getVendors);
+router.get('/getvendors',getVendors);
 router.post('/addvendor', validateParams([
     {
         param_key: 'name',
@@ -23,14 +23,9 @@ router.post('/addvendor', validateParams([
         param_key: 'contactPerson',
         required: true,
         type: 'string'
-    },
-    {
-        param_key: 'shippingTerms',
-        required: true,
-        type: 'string'
     }
 ]), addVendor);
-router.delete('/deletevendor', deleteVendor);
+router.delete('/deletevendor/:_id', deleteVendor);
 router.put('/updatevendor', updateVendor);
 
 module.exports = router;
