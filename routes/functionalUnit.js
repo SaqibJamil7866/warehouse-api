@@ -22,6 +22,16 @@ router.post('/addfunctionalunit', validateParams([
         param_key: 'description',
         required: true,
         type: 'string'
+    },
+    {
+        param_key: 'fuHead',
+        required: true,
+        type: 'string'
+    },
+    {
+        param_key: 'status',
+        required: true,
+        type: 'string'
     }
   ]), addFunctionalUnit);
 router.delete('/deletefunctionalunit/:_id', deleteFunctionalUnit);

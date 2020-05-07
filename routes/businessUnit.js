@@ -24,7 +24,17 @@ router.post('/addbusinessunit', validateParams([
         type: 'string'
     },
     {
+        param_key: 'buHead',
+        required: true,
+        type: 'string'
+    },
+    {
         param_key: 'functionalUnitId',
+        required: true,
+        type: 'string'
+    },
+    {
+        param_key: 'status',
         required: true,
         type: 'string'
     }

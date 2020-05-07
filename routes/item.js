@@ -19,6 +19,16 @@ router.post('/additem', validateParams([
         type: 'string'
     },
     {
+        param_key: 'description',
+        required: true,
+        type: 'string'
+    },
+    {
+        param_key: 'subClass',
+        required: true,
+        type: 'string'
+    },
+    {
         param_key: 'itemCode',
         required: true,
         type: 'string'
@@ -35,6 +45,21 @@ router.post('/additem', validateParams([
     },
     {
         param_key: 'purchasePrice',
+        required: true,
+        type: 'string'
+    },
+    {
+        param_key: 'minimumOrder',
+        required: true,
+        type: 'string'
+    },
+    {
+        param_key: 'maximumOrder',
+        required: true,
+        type: 'string'
+    },
+    {
+        param_key: 'reorderLevel',
         required: true,
         type: 'string'
     }
