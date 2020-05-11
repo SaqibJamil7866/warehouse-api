@@ -3,21 +3,24 @@
     const asyncHandler = require('../middleware/async');
     const Item = require('../models/item');
     const Vendor = require('../models/vendor');
+    const FunctionalUnit = require('../models/functionalUnit');
 
     exports.getItems = asyncHandler(async (req, res) => {
-      const items = await Item.find().populate('vendorId');
+      const items = await Item.find().populate('vendorId').populate('receiptUnit').populate('issueUnit');
       const vendors = await Vendor.find();
+      const functionalUnit = await FunctionalUnit.find();
       const data ={
         items,
-        vendors
+        vendors,
+        functionalUnit
       }
       
       res.status(200).json({ success: true, data: data });
     });
 
     exports.addItem = asyncHandler(async (req, res, next) => {
-      const { name, description, subClass, itemCode, vendorId, purchasePrice, receiptUnit, issueUnit, minimumOrder,
-        maximumOrder, reorderLevel } = req.body;
+      const { name, description, subClass, itemCode, vendorId, purchasePrice, receiptUnit, issueUnit, minimumLevel,
+        maximumLevel, reorderLevel } = req.body;
       const item = await Item.create({
         uuid: uuidv4(),
         name,
@@ -28,8 +31,8 @@
         purchasePrice,
         receiptUnit,
         issueUnit,
-        minimumOrder,
-        maximumOrder,
+        minimumLevel,
+        maximumLevel,
         reorderLevel
       });
 

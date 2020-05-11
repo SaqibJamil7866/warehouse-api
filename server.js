@@ -31,6 +31,7 @@ const warehousePRPO = require('./routes/warehousePRPO');
 const warehousePODetails = require('./routes/wPODetails');
 const warehouseInventory = require('./routes/warehouseInventory');
 const warehouseInventoryLog = require('./routes/warehouseInventoryLog');
+const purchaseRequest = require('./routes/purchaseRequest');
 
 const app = express();
 
@@ -66,6 +67,7 @@ app.use('/api/warehouseprpo', warehousePRPO);
 app.use('/api/warehousepodetails', warehousePODetails);
 app.use('/api/warehouseinventory', warehouseInventory);
 app.use('/api/warehouseinventorylog', warehouseInventoryLog);
+app.use('/api/purchaserequest', purchaseRequest);
 
 app.use(errorHandler);
 

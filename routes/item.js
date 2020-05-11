@@ -49,12 +49,12 @@ router.post('/additem', validateParams([
         type: 'string'
     },
     {
-        param_key: 'minimumOrder',
+        param_key: 'minimumLevel',
         required: true,
         type: 'string'
     },
     {
-        param_key: 'maximumOrder',
+        param_key: 'maximumLevel',
         required: true,
         type: 'string'
     },
