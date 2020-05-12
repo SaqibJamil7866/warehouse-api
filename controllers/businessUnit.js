@@ -7,11 +7,16 @@ const BusinessUnitLogs = require('../models/businessUnitLogs');
 exports.getBusinessUnit = asyncHandler(async (req, res) => {
     const businessUnit = await BusinessUnit.find().populate('buLogsId');
     const buHeads = [{key:'medical_ops', value:'Medical Ops'}, {key:'hosp_ops', value:'Hosp Ops'}];
-    const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}]
+    const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
+    const buLogs = [];
+    businessUnit.forEach(element => {
+      buLogs.push(element.buLogsId)
+    });
     const data = {
       businessUnit,
       buHeads,
-      statues
+      statues,
+      buLogs
     }
     res.status(200).json({ success: true, data: data });
 });
