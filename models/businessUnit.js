@@ -15,13 +15,12 @@ const businessUnitSchema = new mongoose.Schema({
     buHead: {
         type: String
     },
-    functionalUnitId: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'functionalUnit',
-        required: [true, 'Please select Functional Unit']
-    },
     status: {
         type: String
+    },
+    buLogsId:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnitLogs'
     },
     createdAt: {
         type: Date,

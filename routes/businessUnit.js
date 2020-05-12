@@ -29,7 +29,7 @@ router.post('/addbusinessunit', validateParams([
         type: 'string'
     },
     {
-        param_key: 'functionalUnitId',
+        param_key: 'updatedBy',
         required: true,
         type: 'string'
     },
