@@ -59,7 +59,7 @@ exports.deleteBusinessUnit = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
-    const { _id, buLogsId, updatedBy, reason } = req.body;
+    const { _id, buLogsId, updatedBy, reason, status } = req.body;
 
     let businessUnitLogs = await BusinessUnitLogs.findById(buLogsId);
     let businessUnit = await BusinessUnit.findById(_id);
@@ -69,7 +69,7 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Business unit Log not found with id of ${_id}`, 404)
       );
     }
-    else if(businessUnitLogs.status !== businessUnit.status){
+    else if((status && businessUnitLogs.status !== status) || (reason && businessUnitLogs.reason !== reason)){
       businessUnitLogs.status = businessUnit.status;
       businessUnitLogs.updatedBy = updatedBy;
       businessUnitLogs.reason = reason;
@@ -82,7 +82,7 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
     }
 
     businessUnit = await BusinessUnit.updateOne({_id: _id}, req.body);
-    businessUnitLogs = await BusinessUnitLogs.updateOne({_id: buLogsId}, businessUnitLogs)
+    businessUnitLogs = await BusinessUnitLogs.updateOne({_id: buLogsId}, businessUnitLogs);
 
     res.status(200).json({ success: true, data: businessUnit });
 });

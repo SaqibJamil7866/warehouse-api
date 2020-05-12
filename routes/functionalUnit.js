@@ -29,10 +29,20 @@ router.post('/addfunctionalunit', validateParams([
         type: 'string'
     },
     {
+        param_key: 'buId',
+        required: true,
+        type: 'string'
+    },
+    {
         param_key: 'status',
         required: true,
         type: 'string'
-    }
+    },
+    {
+        param_key: 'updatedBy',
+        required: true,
+        type: 'string'
+    },
   ]), addFunctionalUnit);
 router.delete('/deletefunctionalunit/:_id', deleteFunctionalUnit);
 router.put('/updatefunctionalunit', updateFunctionalUnit);

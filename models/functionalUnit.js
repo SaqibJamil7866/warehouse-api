@@ -13,10 +13,21 @@ const functionalUnitSchema = new mongoose.Schema({
         required: [true, 'Please add description']
     },
     fuHead: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Functional Unit Head']
     },
     status: {
         type: String
+    },
+    buId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnit',
+        required: [true, 'Please select business unit']
+    },
+    fuLogId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'functionalUnitLogs'
     },
     createdAt: {
         type: Date,
