@@ -60,6 +60,7 @@ exports.deleteBusinessUnit = asyncHandler(async (req, res, next) => {
 
 exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
     const { _id, buLogsId, updatedBy, reason, status } = req.body;
+    console.log("entered: ", req.body);
 
     let businessUnitLogs = await BusinessUnitLogs.findById(buLogsId);
     let businessUnit = await BusinessUnit.findById(_id);
@@ -69,10 +70,28 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Business unit Log not found with id of ${_id}`, 404)
       );
     }
-    else if((status && businessUnitLogs.status !== status) || (reason && businessUnitLogs.reason !== reason)){
+    else if(updatedBy !== businessUnitLogs.updatedBy || (status && businessUnitLogs.status !== status)){
+      console.log("Create: ", updatedBy, businessUnitLogs.updatedBy, status, businessUnitLogs.status);
+      businessUnitLogs.status = status;
+      businessUnitLogs.updatedBy = updatedBy;
+      businessUnitLogs.reason = reason;
+
+      businessUnitLogs = await BusinessUnitLogs.create({
+        uuid: uuidv4(),
+        status,
+        reason,
+        updatedBy
+      });
+      req.body.buLogsId = businessUnitLogs._id;
+      // req.body.reason = 
+    }
+    else if(businessUnitLogs.reason !== reason){
+      console.log("update: ", reason, businessUnitLogs.reason)
       businessUnitLogs.status = businessUnit.status;
       businessUnitLogs.updatedBy = updatedBy;
       businessUnitLogs.reason = reason;
+
+      businessUnitLogs = await BusinessUnitLogs.updateOne({_id: buLogsId}, businessUnitLogs);
     }
 
     if(!businessUnit) {
@@ -80,9 +99,8 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Business unit not found with id of ${_id}`, 404)
       );
     }
-
+    console.log("req body: ", req.body);
     businessUnit = await BusinessUnit.updateOne({_id: _id}, req.body);
-    businessUnitLogs = await BusinessUnitLogs.updateOne({_id: buLogsId}, businessUnitLogs);
 
     res.status(200).json({ success: true, data: businessUnit });
 });
