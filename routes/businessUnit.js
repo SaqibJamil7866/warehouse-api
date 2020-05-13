@@ -3,6 +3,7 @@ const { validateParams } = require('../middleware/validator');
 
 const {
     getBusinessUnit,
+    getBusinessUnitLogs,
     addBusinessUnit,
     deleteBusinessUnit,
     updateBusinessUnit
@@ -12,6 +13,7 @@ const router = express.Router();
 
 
 router.get('/getbusinessunit', getBusinessUnit);
+router.get('/getbusinessunitlogs/:_id', getBusinessUnitLogs);
 router.post('/addbusinessunit', validateParams([
     {
         param_key: 'buName',

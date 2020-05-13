@@ -12,17 +12,22 @@ exports.getFunctionalUnits = asyncHandler(async (req, res) => {
   const businessUnit = await BusinessUnit.find();
   const staff = await Staff.find();
   const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
-  const fuLogs = await FunctionalUnitLog.find()
 
   const data ={
     functionalUnits,
     businessUnit,
     staff,
-    statues,
-    fuLogs
+    statues
   }
   
   res.status(200).json({ success: true, data: data });
+});
+
+exports.getFunctionalUnitLogs = asyncHandler(async (req, res) => {
+  console.log("req: ", req.params)
+  const fuLogs = await FunctionalUnitLog.find({fuId: req.params._id});
+
+  res.status(200).json({ success: true, data: fuLogs });
 });
 
 exports.addFunctionalUnit = asyncHandler(async (req, res) => {

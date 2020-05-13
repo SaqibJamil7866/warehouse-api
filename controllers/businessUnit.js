@@ -11,16 +11,20 @@ exports.getBusinessUnit = asyncHandler(async (req, res) => {
     const buHeads = await Staff.find();
     const divisions = [{key:'medical_ops', value:'Medical Ops'}, {key:'hosp_ops', value:'Hosp Ops'}];
     const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
-    const buLogs = await BusinessUnitLogs.find();
 
     const data = {
       businessUnit,
       divisions,
       buHeads,
-      statues,
-      buLogs
+      statues
     }
     res.status(200).json({ success: true, data: data });
+});
+
+exports.getBusinessUnitLogs = asyncHandler(async (req, res) => {
+  const buLogs = await BusinessUnitLogs.find({buId: req.params._id});
+
+  res.status(200).json({ success: true, data: buLogs });
 });
 
 exports.addBusinessUnit = asyncHandler(async (req, res) => {

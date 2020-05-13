@@ -3,6 +3,7 @@ const { validateParams } = require('../middleware/validator');
 
 const {
     getFunctionalUnits,
+    getFunctionalUnitLogs,
     addFunctionalUnit,
     deleteFunctionalUnit,
     updateFunctionalUnit
@@ -12,6 +13,7 @@ const router = express.Router();
 
 
 router.get('/getfunctionalunits', getFunctionalUnits);
+router.get('/getfunctionalunitlogs/:_id', getFunctionalUnitLogs);
 router.post('/addfunctionalunit', validateParams([
     {
         param_key: 'fuName',
