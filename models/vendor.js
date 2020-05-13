@@ -4,30 +4,60 @@ const VendorSchema = new mongoose.Schema({
     uuid: {
         type: String
     },
-    name: {
+    englishName: {
         type: String,
         required: [true, 'Please add name']
     },
-    contactPerson: {
+    arabicName: {
         type: String,
-        required: [true, 'Please add contact person'],
     },
-    phoneNumber: {
-        type: String
+    telephone1: {
+        type: String,
+        required: [true, 'Please add telephone']
     },
-    website: {
-        type: String
+    telephone2: {
+        type: String,
+    },
+    contactEmail: {
+        type: String,
     },
     address: {
-        type: String
-    },
-    zipCode: {
-        type: String
-    },
-    city: {
-        type: String
+        type: String,
+        required: [true, 'Please add address']
     },
     country: {
+        type: String,
+    },
+    city: {
+        type: String,
+    },
+    zipcode: {
+        type: String,
+        required: [true, 'Please add zipcode']
+    },
+    pobox: {
+        type: String,
+        required: [true, 'Please add P.O.Box']
+    },
+    faxno: {
+        type: String,
+    },
+    taxno: {
+        type: String,
+        required: [true, 'Please add tax number']
+    },
+    contactPersonName: {
+        type: String,
+        required: [true, 'Please add contact person name'],
+    },
+    contactPersonTelephone: {
+        type: String,
+        required: [true, 'Please add contact person telephone'],
+    },
+    contactPersonEmail: {
+        type: String,
+    },
+    paymentTerms: {
         type: String
     },
     shippingTerms: {

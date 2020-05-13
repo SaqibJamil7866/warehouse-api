@@ -13,21 +13,16 @@
     });
 
     exports.addVendor = asyncHandler(async (req, res) => {
-      const { name, contactPerson, phoneNumber, website, address, zipCode, city, country,
-        rating, status } = req.body;
-      console.log("add vendor");
+      const { englishName, arabicName, telephone1, telephone2, contactEmail, address, country, city,
+        zipcode, pobox, faxno, taxno, contactPersonName, contactPersonTelephone, contactPersonEmail, paymentTerms,
+        shippingTerms, rating, status } = req.body;
+
       const vendor = await Vendor.create({
         uuid: uuidv4(),
-        name,
-        contactPerson,
-        phoneNumber,
-        website,
-        address,
-        zipCode,
-        city,
-        country,
-        rating,
-        status
+        englishName, arabicName, telephone1, telephone2, contactEmail,
+        address, country, city, zipcode, pobox, faxno,
+        taxno, contactPersonName, contactPersonTelephone, contactPersonEmail,
+        paymentTerms, shippingTerms, rating, status
       });
 
       res.status(200).json({ success: true, data: vendor });

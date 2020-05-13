@@ -1,5 +1,4 @@
 const express = require('express');
-const { authorize } = require('../middleware/auth');
 const { validateParams } = require('../middleware/validator');
 
 const {
@@ -15,22 +14,12 @@ const router = express.Router();
 router.get('/getvendors',getVendors);
 router.post('/addvendor', validateParams([
     {
-        param_key: 'name',
+        param_key: 'englishName',
         required: true,
         type: 'string'
     },
     {
-        param_key: 'contactPerson',
-        required: true,
-        type: 'string'
-    },
-    {
-        param_key: 'phoneNumber',
-        required: true,
-        type: 'string'
-    },
-    {
-        param_key: 'website',
+        param_key: 'telephone1',
         required: true,
         type: 'string'
     },
@@ -40,27 +29,27 @@ router.post('/addvendor', validateParams([
         type: 'string'
     },
     {
-        param_key: 'zipCode',
+        param_key: 'zipcode',
         required: true,
         type: 'string'
     },
     {
-        param_key: 'city',
+        param_key: 'pobox',
         required: true,
         type: 'string'
     },
     {
-        param_key: 'country',
+        param_key: 'taxno',
         required: true,
         type: 'string'
     },
     {
-        param_key: 'rating',
+        param_key: 'contactPersonName',
         required: true,
         type: 'string'
     },
     {
-        param_key: 'status',
+        param_key: 'contactPersonTelephone',
         required: true,
         type: 'string'
     }
