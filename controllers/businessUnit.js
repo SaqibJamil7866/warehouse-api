@@ -4,15 +4,18 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const BusinessUnit = require('../models/businessUnit');
 const BusinessUnitLogs = require('../models/businessUnitLogs');
+const Staff = require('../models/staff');
 
 exports.getBusinessUnit = asyncHandler(async (req, res) => {
-    const businessUnit = await BusinessUnit.find().populate('buLogsId');
-    const buHeads = [{key:'medical_ops', value:'Medical Ops'}, {key:'hosp_ops', value:'Hosp Ops'}];
+    const businessUnit = await BusinessUnit.find().populate('buLogsId').populate('buHead');
+    const buHeads = await Staff.find();
+    const divisions = [{key:'medical_ops', value:'Medical Ops'}, {key:'hosp_ops', value:'Hosp Ops'}];
     const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
     const buLogs = await BusinessUnitLogs.find();
 
     const data = {
       businessUnit,
+      divisions,
       buHeads,
       statues,
       buLogs
@@ -21,7 +24,7 @@ exports.getBusinessUnit = asyncHandler(async (req, res) => {
 });
 
 exports.addBusinessUnit = asyncHandler(async (req, res) => {
-    const { buName, description, buHead, status, updatedBy, reason } = req.body;
+    const { buName, description, division, buHead, status, updatedBy, reason } = req.body;
     const _id = new mongoose.mongo.ObjectID();
 
     const buLogs = await BusinessUnitLogs.create({
@@ -37,6 +40,7 @@ exports.addBusinessUnit = asyncHandler(async (req, res) => {
         uuid: uuidv4(),
         buName,
         description,
+        division,
         buHead,
         status,
         buLogsId: buLogs._id
@@ -96,7 +100,7 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Business unit not found with id of ${_id}`, 404)
       );
     }
-    
+
     businessUnit = await BusinessUnit.updateOne({_id: _id}, req.body);
     res.status(200).json({ success: true, data: businessUnit });
 });

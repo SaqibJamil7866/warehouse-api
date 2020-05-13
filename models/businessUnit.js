@@ -12,8 +12,13 @@ const businessUnitSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add description']
     },
-    buHead: {
+    division: {
         type: String
+    },
+    buHead: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'staff',
+        required: [true, 'Please select Business Unit Head']
     },
     status: {
         type: String
