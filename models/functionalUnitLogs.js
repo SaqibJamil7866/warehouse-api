@@ -13,6 +13,10 @@ const functionalUnitLogsSchema = new mongoose.Schema({
     updatedBy: {
         type: String
     },
+    fuId:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'functionalUnit'
+    },
     createdAt: {
         type: Date,
         default: Date.now

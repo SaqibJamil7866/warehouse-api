@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const FunctionalUnit = require('../models/functionalUnit');
@@ -11,10 +12,8 @@ exports.getFunctionalUnits = asyncHandler(async (req, res) => {
   const businessUnit = await BusinessUnit.find();
   const staff = await Staff.find();
   const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
-  const fuLogs = [];
-  functionalUnits.forEach(element => {
-    fuLogs.push(element.fuLogId)
-  });
+  const fuLogs = await FunctionalUnitLog.find()
+
   const data ={
     functionalUnits,
     businessUnit,
@@ -28,14 +27,18 @@ exports.getFunctionalUnits = asyncHandler(async (req, res) => {
 
 exports.addFunctionalUnit = asyncHandler(async (req, res) => {
   const { fuName, description, fuHead, buId, status, updatedBy, reason } = req.body;
+  const _id = new mongoose.mongo.ObjectID();
+
   const fuLogs = await FunctionalUnitLog.create({
     uuid: uuidv4(),
     status,
     reason,
+    fuId: _id,
     updatedBy
   });
 
   const functionalUnit = await FunctionalUnit.create({
+    _id,
     uuid: uuidv4(),
     fuName,
     description,
@@ -73,10 +76,24 @@ exports.updateFunctionalUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Functional unit Log not found with id of ${_id}`, 404)
       );
     }
-    else if((status && functionalUnitLog.status !== status) || (reason && functionalUnitLog.reason !== reason)){
-      functionalUnitLog.status = functionalUnit.status;
+    else if(updatedBy !== functionalUnitLog.updatedBy || (status && functionalUnitLog.status !== status)){ // create new log when staus or updated by changed
+      console.log("Create: ", reason, status);
+      functionalUnitLog = await FunctionalUnitLog.create({
+        uuid: uuidv4(),
+        status,
+        reason,
+        fuId: functionalUnit._id,
+        updatedBy
+      });
+      req.body.fuLogId = functionalUnitLog._id;
+    }   
+    else if(functionalUnitLog.reason !== reason){ // update the log when only reason changes
+      console.log("Update: ", reason, status, fuLogId);
+      functionalUnitLog.status = status;
       functionalUnitLog.updatedBy = updatedBy;
       functionalUnitLog.reason = reason;
+
+      functionalUnitLog = await functionalUnitLog.updateOne({_id: fuLogId}, functionalUnitLog);
     }
 
     if(!functionalUnit) {
@@ -86,7 +103,5 @@ exports.updateFunctionalUnit = asyncHandler(async (req, res, next) => {
     }
 
     functionalUnit = await FunctionalUnit.updateOne({_id: _id}, req.body);
-    functionalUnitLog = await FunctionalUnitLog.updateOne({_id: fuLogId}, functionalUnitLog);
-
     res.status(200).json({ success: true, data: functionalUnit });
 });

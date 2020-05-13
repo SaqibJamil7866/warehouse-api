@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const BusinessUnit = require('../models/businessUnit');
@@ -8,10 +9,8 @@ exports.getBusinessUnit = asyncHandler(async (req, res) => {
     const businessUnit = await BusinessUnit.find().populate('buLogsId');
     const buHeads = [{key:'medical_ops', value:'Medical Ops'}, {key:'hosp_ops', value:'Hosp Ops'}];
     const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
-    const buLogs = [];
-    businessUnit.forEach(element => {
-      buLogs.push(element.buLogsId)
-    });
+    const buLogs = await BusinessUnitLogs.find();
+
     const data = {
       businessUnit,
       buHeads,
@@ -23,14 +22,18 @@ exports.getBusinessUnit = asyncHandler(async (req, res) => {
 
 exports.addBusinessUnit = asyncHandler(async (req, res) => {
     const { buName, description, buHead, status, updatedBy, reason } = req.body;
+    const _id = new mongoose.mongo.ObjectID();
+
     const buLogs = await BusinessUnitLogs.create({
       uuid: uuidv4(),
       status,
       reason,
+      buId: _id,
       updatedBy
     });
   
     const businessUnit = await BusinessUnit.create({
+        _id,
         uuid: uuidv4(),
         buName,
         description,
@@ -60,7 +63,7 @@ exports.deleteBusinessUnit = asyncHandler(async (req, res, next) => {
 
 exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
     const { _id, buLogsId, updatedBy, reason, status } = req.body;
-    console.log("entered: ", req.body);
+  
 
     let businessUnitLogs = await BusinessUnitLogs.findById(buLogsId);
     let businessUnit = await BusinessUnit.findById(_id);
@@ -70,24 +73,18 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Business unit Log not found with id of ${_id}`, 404)
       );
     }
-    else if(updatedBy !== businessUnitLogs.updatedBy || (status && businessUnitLogs.status !== status)){
-      console.log("Create: ", updatedBy, businessUnitLogs.updatedBy, status, businessUnitLogs.status);
-      businessUnitLogs.status = status;
-      businessUnitLogs.updatedBy = updatedBy;
-      businessUnitLogs.reason = reason;
-
+    else if(updatedBy !== businessUnitLogs.updatedBy || (status && businessUnitLogs.status !== status)){ // create new log when staus or updated by changed
       businessUnitLogs = await BusinessUnitLogs.create({
         uuid: uuidv4(),
         status,
         reason,
+        buId: businessUnit._id,
         updatedBy
       });
       req.body.buLogsId = businessUnitLogs._id;
-      // req.body.reason = 
     }
-    else if(businessUnitLogs.reason !== reason){
-      console.log("update: ", reason, businessUnitLogs.reason)
-      businessUnitLogs.status = businessUnit.status;
+    else if(businessUnitLogs.reason !== reason){ // update the log when only reason changes
+      businessUnitLogs.status = status;
       businessUnitLogs.updatedBy = updatedBy;
       businessUnitLogs.reason = reason;
 
@@ -99,8 +96,7 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
         new ErrorResponse(`Business unit not found with id of ${_id}`, 404)
       );
     }
-    console.log("req body: ", req.body);
+    
     businessUnit = await BusinessUnit.updateOne({_id: _id}, req.body);
-
     res.status(200).json({ success: true, data: businessUnit });
 });

@@ -13,6 +13,10 @@ const businessUnitLogsSchema = new mongoose.Schema({
     updatedBy: {
         type: String
     },
+    buId:{
+        type: mongoose.Schema.ObjectId,
+        ref: 'businessUnit'
+    },
     createdAt: {
         type: Date,
         default: Date.now
