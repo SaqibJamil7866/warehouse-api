@@ -1,26 +1,28 @@
+/* eslint-disable no-param-reassign */
 const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const ShippingTerm = require('../models/shippingTerm');
 
 exports.getShippingTerms = asyncHandler(async (req, res) => {
-    const shippingTerm = await ShippingTerm.find();
-
+    const shippingTerm = await ShippingTerm.find({vendorId: req.params.vendorId});
     const data = {
         shippingTerm
     }
-    
     res.status(200).json({ success: true, data: data });
 });
 
 exports.addShippingTerm = asyncHandler(async (req, res) => {
-    const { description } = req.body;
-    const shippingTerm = await ShippingTerm.create({
-        uuid: uuidv4(),
-        description,
+    const { shippingTermsData, vendorId } = req.body;
+    
+    shippingTermsData.forEach(element => {
+        element.uuid = uuidv4();
+        element.vendorId = vendorId;
     });
+    const shippingTerms = await ShippingTerm.insertMany([...shippingTermsData]);
+    
 
-    res.status(200).json({ success: true, data: shippingTerm });
+    res.status(200).json({ success: true, data: shippingTerms });
 });
 
 exports.deleteShippingTerm = asyncHandler(async (req, res, next) => {

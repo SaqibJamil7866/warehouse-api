@@ -11,13 +11,8 @@ const {
 const router = express.Router();
 
 
-router.get('/getshippingterms', getShippingTerms);
+router.get('/getshippingterms/:vendorId', getShippingTerms);
 router.post('/addshippingterm', validateParams([
-    {
-        param_key: 'description',
-        required: true,
-        type: 'string'
-    },
     {
         param_key: 'vendorId',
         required: true,
