@@ -10,7 +10,6 @@ const {
 
 const router = express.Router();
 
-
 router.get('/getshippingterms/:vendorId', getShippingTerms);
 router.post('/addshippingterm', validateParams([
     {

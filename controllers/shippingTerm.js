@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 const { v4: uuidv4 } = require('uuid');
+const aysncforEach = require('async-foreach').forEach;
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const ShippingTerm = require('../models/shippingTerm');
@@ -38,17 +39,28 @@ exports.deleteShippingTerm = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, data: {} });
 });
 
-exports.updateShippingTerm = asyncHandler(async (req, res, next) => {
-    const { _id } = req.body;
+exports.updateShippingTerm = asyncHandler(async (req, res) => {
+    const { shippingTermsData } = req.body;
+    const shippingTerms = [];
 
-    let shippingTerm = await ShippingTerm.findById(_id);
+    aysncforEach(shippingTermsData, function(item){
+        // Only when `this.async` is called does iteration becomes asynchronous. The
+        // loop won't be continued until the `done` function is executed.
+        const done = this.async();
+        ShippingTerm.findById(item._id, function(err0r, shippingTerm){
+            if(!shippingTerm) {
+                done();
+            }
+            else{
+                ShippingTerm.updateOne({_id: item._id}, item, function(err, data){
+                    shippingTerms.push(item);
+                    done();
+                });
+            }
 
-    if(!shippingTerm) {
-        return next(
-        new ErrorResponse(`Shipping Term not found with id of ${_id}`, 404)
-        );
-    }
+        });
+    }, function(){
+        res.status(200).json({ success: true, data: shippingTerms });
+    });
 
-    shippingTerm = await ShippingTerm.updateOne({_id: _id}, req.body);
-    res.status(200).json({ success: true, data: shippingTerm });
 });
