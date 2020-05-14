@@ -92,6 +92,7 @@ exports.updateBusinessUnit = asyncHandler(async (req, res, next) => {
       req.body.buLogsId = businessUnitLogs._id;
     }
     else if(businessUnitLogs.reason !== reason){ // update the log when only reason changes
+      
       businessUnitLogs.status = status;
       businessUnitLogs.updatedBy = updatedBy;
       businessUnitLogs.reason = reason;

@@ -71,42 +71,41 @@ exports.deleteFunctionalUnit = asyncHandler(async (req, res, next) => {
 });
 
 exports.updateFunctionalUnit = asyncHandler(async (req, res, next) => {
-    const { _id, fuLogId, updatedBy, reason, status } = req.body;
 
-    let functionalUnitLog = await FunctionalUnitLog.findById(fuLogId);
-    let functionalUnit = await FunctionalUnit.findById(_id);
+  const { _id, fuLogId, updatedBy, reason, status } = req.body;
 
-    if(!functionalUnitLog) {
-      return next(
-        new ErrorResponse(`Functional unit Log not found with id of ${_id}`, 404)
-      );
-    }
-    else if(updatedBy !== functionalUnitLog.updatedBy || (status && functionalUnitLog.status !== status)){ // create new log when staus or updated by changed
-      console.log("Create: ", reason, status);
-      functionalUnitLog = await FunctionalUnitLog.create({
-        uuid: uuidv4(),
-        status,
-        reason,
-        fuId: functionalUnit._id,
-        updatedBy
-      });
-      req.body.fuLogId = functionalUnitLog._id;
-    }   
-    else if(functionalUnitLog.reason !== reason){ // update the log when only reason changes
-      console.log("Update: ", reason, status, fuLogId);
-      functionalUnitLog.status = status;
-      functionalUnitLog.updatedBy = updatedBy;
-      functionalUnitLog.reason = reason;
+  let functionalUnitLog = await FunctionalUnitLog.findById(fuLogId);
+  let functionalUnit = await FunctionalUnit.findById(_id);
 
-      functionalUnitLog = await functionalUnitLog.updateOne({_id: fuLogId}, functionalUnitLog);
-    }
+  if(!functionalUnitLog) {
+    return next(
+      new ErrorResponse(`Functional unit Log not found with id of ${_id}`, 404)
+    );
+  }
+  else if(updatedBy !== functionalUnitLog.updatedBy || (status && functionalUnitLog.status !== status)){ // create new log when staus or updated by changed
+    console.log("Create: ", reason, status);
+    functionalUnitLog = await FunctionalUnitLog.create({
+      uuid: uuidv4(),
+      status,
+      reason,
+      fuId: functionalUnit._id,
+      updatedBy
+    });
+    req.body.fuLogId = functionalUnitLog._id;
+  }   
+  else if(functionalUnitLog.reason !== reason){ // update the log when only reason changes
+    functionalUnitLog.status = status;
+    functionalUnitLog.updatedBy = updatedBy;
+    functionalUnitLog.reason = reason;
+    functionalUnitLog = await FunctionalUnitLog.updateOne({_id: fuLogId}, functionalUnitLog);
+  }
 
-    if(!functionalUnit) {
-      return next(
-        new ErrorResponse(`Functional Unit not found with id of ${_id}`, 404)
-      );
-    }
+  if(!functionalUnit) {
+    return next(
+      new ErrorResponse(`Functional Unit not found with id of ${_id}`, 404)
+    );
+  }
 
-    functionalUnit = await FunctionalUnit.updateOne({_id: _id}, req.body);
-    res.status(200).json({ success: true, data: functionalUnit });
+  functionalUnit = await FunctionalUnit.updateOne({_id: _id}, req.body);
+  res.status(200).json({ success: true, data: functionalUnit });
 });
