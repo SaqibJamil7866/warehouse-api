@@ -4,9 +4,13 @@ const ShippingTermSchema = new mongoose.Schema({
     uuid: {
         type: String
     },
-    descriptionme: {
+    description: {
         type: String,
         required: [true, 'Please add description']
+    },
+    vendorId: {
+        type: String,
+        required: [true, 'Please add vendor id']
     },
     createdAt: {
         type: Date,

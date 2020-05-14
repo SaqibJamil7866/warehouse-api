@@ -17,6 +17,11 @@ router.post('/addshippingterm', validateParams([
         param_key: 'description',
         required: true,
         type: 'string'
+    },
+    {
+        param_key: 'vendorId',
+        required: true,
+        type: 'string'
     }
   ]), addShippingTerm);
 router.delete('/deleteShippingTerm/:_id', deleteShippingTerm);
