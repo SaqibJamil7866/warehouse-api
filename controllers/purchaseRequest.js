@@ -8,7 +8,6 @@ const Items = require('../models/item');
 exports.getPurchaseRequests = asyncHandler(async (req, res) => {
     const purchaseRequest = await PurchaseRequest.find().populate('vendorId');
     const vendor = await Vendor.find();
-    const items = await Items.find();
     const status = [{key:'to_do', value:'To do'},{key:'in_progress', value:'In Progress'},
         {key:'on_hold', value:'On hold'},{key:'modified', value:'Modified'},{key:'done', value:'Done'}];
 
@@ -16,7 +15,6 @@ exports.getPurchaseRequests = asyncHandler(async (req, res) => {
         purchaseRequest,
         vendor,
         status,
-        items
     }
     
     res.status(200).json({ success: true, data: data });

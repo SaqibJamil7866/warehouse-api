@@ -22,6 +22,7 @@
         {key:'fs_food_supplies', value:'FS-Food Supplies', parent:"food_beverage"},{key:'ve_vegetables_supplies', value:'VE-Vegetables Supplies', parent:"food_beverage"},
         {key:'ca_cafeteria', value:'CA-Cafeteria Supplies', parent:"food_supplies"},{key:'km_kitchen', value:'KM-Kitchen Materials', parent:"food_supplies"},
         {key:'hs_house_keeping', value:'HS-House Keeping Supplies', parent:"housekeeping_supplies"},
+
         {key:'ch_chemicals', value:'CH-Chemicals', parent:"laboratory_supplies"},{key:'dp_disposables', value:'DP-Disposables', parent:"laboratory_supplies"},
         {key:'kt_kits', value:'KT-Kits', parent:"laboratory_supplies"},{key:'rg_reagents', value:'RG-Reagents', parent:"laboratory_supplies"},
         {key:'mac_air_conditioning', value:'MAC-Air conditioning', parent:"maintenance"},{key:'mdc_carpentry', value:'MCD-Carpentry & Decoration', parent:"maintenance"},
@@ -32,6 +33,7 @@
         {key:'mpl_plumping', value:'MPL-PLUMPING', parent:"maintenance"},{key:'mpv_pvc', value:'MPV-PVC', parent:"maintenance"},
         {key:'msa_safety', value:'MSA-Safety', parent:"maintenance"},{key:'msl_signal', value:'MSL-Singal', parent:"maintenance"},
         {key:'msn_stain', value:'MSN-Stain', parent:"maintenance"},
+
         {key:'cl_cath', value:'CL-Cath.Supplies', parent:"medical_supplies"},{key:'cls_cath', value:'CLS-CATH STENTING SUPPLIES', parent:"medical_supplies"},
         {key:'cs_cardiac', value:'CS-Cardiac Supplies', parent:"medical_supplies"},{key:'iv_i.v.f', value:'IV-I.V.F Supplies', parent:"medical_supplies"},
         {key:'ks_kidney', value:'KS-Kidney Supplies', parent:"medical_supplies"},{key:'mei_medical', value:'MEI-MEDICAL INSTRUMENT', parent:"medical_supplies"},
@@ -58,6 +60,19 @@
         classes,
         subClasses,
         grandSubClasses
+      }
+      
+      res.status(200).json({ success: true, data: data });
+    });
+
+    exports.getSearchedItems = asyncHandler(async (req, res) => {
+      
+      const items = await Item.find({$or: [
+        {name: req.params.keyword},
+        {itemCode: req.params.keyword}
+      ]});
+      const data ={
+        items
       }
       
       res.status(200).json({ success: true, data: data });

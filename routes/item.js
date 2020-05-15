@@ -3,6 +3,7 @@ const { validateParams } = require('../middleware/validator');
 
 const {
     getItems,
+    getSearchedItems,
     addItem,
     deleteItem,
     updateItem
@@ -12,6 +13,7 @@ const router = express.Router();
 
 
 router.get('/getitems', getItems);
+router.get('/getsearcheditems/:keyword', getSearchedItems);
 router.post('/additem', validateParams([
     {
         param_key: 'name',
