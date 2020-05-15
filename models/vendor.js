@@ -72,7 +72,7 @@ const VendorSchema = new mongoose.Schema({
     status: {
         type: String,
     },
-    class: {
+    cls: {
         type: String
     },
     subClass:{
