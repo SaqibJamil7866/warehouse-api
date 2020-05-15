@@ -4,6 +4,9 @@ const VendorSchema = new mongoose.Schema({
     uuid: {
         type: String
     },
+    vendorNo: {
+
+    },
     englishName: {
         type: String,
         required: [true, 'Please add name']
@@ -68,6 +71,12 @@ const VendorSchema = new mongoose.Schema({
     },
     status: {
         type: String,
+    },
+    class: {
+        type: String
+    },
+    subClass:{
+        type: String
     },
     createdAt: {
         type: Date,

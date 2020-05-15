@@ -5,8 +5,22 @@
 
     exports.getVendors = asyncHandler(async (req, res) => {
       const vendor = await Vendor.find();
+      const statues = [{key:'active', value:'Active'}, {key:'in_active', value:'In Active'}];
+      const classes = [{key:'medical', value:'Medical'}, {key:'non_medical', value:'Non Medical'}];
+      const subClasses = [{key:'medical_supplies', value:'Medical Supplies & Instruments', parent:"medical"}, 
+      {key:'medicine', value:'Medicine', parent:"medical"},{key:'laboratory_supplies', value:'Laboratory Supplies', parent:"medical"},
+      {key:'radiology_medicine', value:'Radiology Medicine & Supplies', parent:"medical"},{key:'food_beverage', value:'Food & Beverage', parent:"non_medical"},
+      {key:'food_supplies', value:'Food Supplies', parent:"non_medical"},{key:'housekeeping_supplies', value:'Housekeeping Supplies', parent:"non_medical"},
+      {key:'maintenance', value:'Maintenance', parent:"non_medical"},{key:'textile', value:'Textile', parent:"non_medical"},
+      {key:'office_stationary_supplies', value:'Office & Stationary Supplies', parent:"non_medical"}
+    ];
+      
+
       const data = {
-        vendor
+        vendor,
+        statues,
+        classes,
+        subClasses
       }
       
       res.status(200).json({ success: true, data: data });
