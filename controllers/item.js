@@ -64,13 +64,12 @@
     });
 
     exports.addItem = asyncHandler(async (req, res, next) => {
-      const { name, description, subClass, itemCode, vendorId, purchasePrice, receiptUnit, issueUnit, minimumLevel,
-        maximumLevel, reorderLevel } = req.body;
+      const { name, description, itemCode, vendorId, purchasePrice, receiptUnit, issueUnit, minimumLevel,
+        maximumLevel, reorderLevel, cls, subClass, grandSubClass, comments } = req.body;
       const item = await Item.create({
         uuid: uuidv4(),
         name,
         description,
-        subClass,
         itemCode,
         vendorId,
         purchasePrice,
@@ -78,7 +77,11 @@
         issueUnit,
         minimumLevel,
         maximumLevel,
-        reorderLevel
+        reorderLevel,
+        cls,
+        subClass,
+        grandSubClass,
+        comments
       });
 
       res.status(200).json({ success: true, data: item });

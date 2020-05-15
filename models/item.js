@@ -11,7 +11,13 @@ const itemSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    cls: {
+        type: String
+    },
     subClass: {
+        type: String
+    },
+    grandSubClass: {
         type: String
     },
     itemCode: {
@@ -43,6 +49,9 @@ const itemSchema = new mongoose.Schema({
         type: String
     },
     reorderLevel: {
+        type: String
+    }, 
+    comments: {
         type: String
     },
     createdAt: {
