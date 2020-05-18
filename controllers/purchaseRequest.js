@@ -22,7 +22,6 @@ exports.getPurchaseRequests = asyncHandler(async (req, res) => {
 });
 
 exports.getPurchaseRequestItems = asyncHandler(async (req, res) => {
-    console.log("params: ", req.params);
     const purchaseRequestItems = await PurchaseRequestItems.find({purchaseRequestId: req.params._id});
 
     res.status(200).json({ success: true, data: purchaseRequestItems });
@@ -65,7 +64,6 @@ exports.addPurchaseRequestItem = asyncHandler(async (req, res) => {
         comments,
         purchaseRequestId
     });
-    
 
     const data = {
         purchaseRequestItem,
@@ -111,7 +109,7 @@ exports.updatePurchaseRequestItem = asyncHandler(async (req, res, next) => {
 
     if(!purchaseRequestItem) {
         return next(
-        new ErrorResponse(`Purchase Request Item not found with id of ${_id}`, 404)
+            new ErrorResponse(`Purchase Request Item not found with id of ${_id}`, 404)
         );
     }
 
