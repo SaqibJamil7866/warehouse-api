@@ -1,9 +1,10 @@
-const { v4: uuidv4 } = require('uuid');
+/* eslint-disable prefer-const */
+const mongoose = require('mongoose');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Vendor = require('../models/vendor');
 const PurchaseRequest = require('../models/purchaseRequest');
-const Items = require('../models/item');
+const PurchaseRequestItems = require('../models/purchaseRequestItems');
 
 exports.getPurchaseRequests = asyncHandler(async (req, res) => {
     const purchaseRequest = await PurchaseRequest.find().populate('vendorId');
@@ -20,11 +21,18 @@ exports.getPurchaseRequests = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, data: data });
 });
 
+exports.getPurchaseRequestItems = asyncHandler(async (req, res) => {
+    console.log("params: ", req.params);
+    const purchaseRequestItems = await PurchaseRequestItems.find({purchaseRequestId: req.params._id});
+
+    res.status(200).json({ success: true, data: purchaseRequestItems });
+});
+
 exports.addPurchaseRequest = asyncHandler(async (req, res) => {
-    const { requestNo, generatedBy, date, vendorId, status, itemCode, name, description,
+    const { _id, requestNo, generatedBy, date, vendorId, status, itemCode, name, description,
         currentQty, reqQty, comments } = req.body;
     const purchaseRequest = await PurchaseRequest.create({
-        uuid: uuidv4(),
+        _id,
         requestNo,
         generatedBy,
         date,
@@ -41,6 +49,31 @@ exports.addPurchaseRequest = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, data: purchaseRequest });
 });
 
+exports.addPurchaseRequestItem = asyncHandler(async (req, res) => {
+    let { itemCode, name, description,
+    currentQty, reqQty, comments, purchaseRequestId } = req.body;
+
+    if(!purchaseRequestId){  // if one item already added against this purchase request
+        purchaseRequestId = new mongoose.mongo.ObjectID();
+    }
+    const purchaseRequestItem = await PurchaseRequestItems.create({
+        itemCode,
+        name,
+        description,
+        currentQty,
+        reqQty,
+        comments,
+        purchaseRequestId
+    });
+    
+
+    const data = {
+        purchaseRequestItem,
+        purchaseRequestId
+    }
+    res.status(200).json({ success: true, data: data });
+});
+
 exports.deletePurchaseRequest = asyncHandler(async (req, res, next) => {
     const { _id } = req.params;
     const purchaseRequest = await PurchaseRequest.findById(_id);
@@ -51,6 +84,8 @@ exports.deletePurchaseRequest = asyncHandler(async (req, res, next) => {
     }
 
     await PurchaseRequest.deleteOne({_id: _id});
+    await PurchaseRequestItems.deleteMany({ purchaseRequestId: _id});
+
     res.status(200).json({ success: true, data: {} });
 });
 
@@ -67,4 +102,19 @@ exports.updatePurchaseRequest = asyncHandler(async (req, res, next) => {
 
     purchaseRequest = await PurchaseRequest.updateOne({_id: _id}, req.body);
     res.status(200).json({ success: true, data: PurchaseRequest });
+});
+
+exports.updatePurchaseRequestItem = asyncHandler(async (req, res, next) => {
+    const { _id } = req.body;
+
+    let purchaseRequestItem = await PurchaseRequestItems.findById(_id);
+
+    if(!purchaseRequestItem) {
+        return next(
+        new ErrorResponse(`Purchase Request Item not found with id of ${_id}`, 404)
+        );
+    }
+
+    purchaseRequestItem = await PurchaseRequestItems.updateOne({_id: _id}, req.body);
+    res.status(200).json({ success: true, data: purchaseRequestItem });
 });

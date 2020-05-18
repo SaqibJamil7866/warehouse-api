@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
 const PurchaseRequestSchema = new mongoose.Schema({
-    uuid: {
-        type: String
-    },
     requestNo: {
-        type: String,
-        required: [true, 'Please add request number']
+        type: String
     },
     generatedBy: {
         type: String,
@@ -25,30 +21,6 @@ const PurchaseRequestSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
-    },
-    itemCode: {
-        type: String,
-        required: [true, 'Please add item code']
-    },
-    name: {
-        type: String,
-        required: [true, 'Please add item code']
-    },
-    description: {
-        type: String,
-        required: [true, 'Please add item code']
-    },
-    currentQty: {
-        type: String,
-        required: [true, 'Please add current qty']
-    },
-    reqQty: {
-        type: String,
-        required: [true, 'Please add req qty']
-    },
-    comments: {
-        type: String,
-        required: [true, 'Please add comments']
     },
     createdAt: {
         type: Date,

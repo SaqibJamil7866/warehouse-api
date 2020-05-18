@@ -3,21 +3,20 @@ const { validateParams } = require('../middleware/validator');
 
 const {
     getPurchaseRequests,
+    getPurchaseRequestItems,
+    addPurchaseRequestItem,
     addPurchaseRequest,
     deletePurchaseRequest,
-    updatePurchaseRequest
+    updatePurchaseRequest,
+    updatePurchaseRequestItem
 } = require('../controllers/purchaseRequest');
 
 const router = express.Router();
 
 
 router.get('/getpurchaserequests', getPurchaseRequests);
+router.get('/getPurchaseRequestItems/:_id', getPurchaseRequestItems);
 router.post('/addpurchaserequest', validateParams([
-    {
-        param_key: 'requestNo',
-        required: true,
-        type: 'string'
-    },
     {
         param_key: 'generatedBy',
         required: true,
@@ -37,7 +36,10 @@ router.post('/addpurchaserequest', validateParams([
         param_key: 'status',
         required: true,
         type: 'string'
-    },
+    }
+  ]), addPurchaseRequest);
+
+router.post('/addpurchaserequestitem', validateParams([
     {
         param_key: 'itemCode',
         required: true,
@@ -68,8 +70,9 @@ router.post('/addpurchaserequest', validateParams([
         required: true,
         type: 'string'
     }
-  ]), addPurchaseRequest);
+]), addPurchaseRequestItem);
 router.delete('/deletepurchaserequest/:_id', deletePurchaseRequest);
 router.put('/updatepurchaserequest', updatePurchaseRequest);
+router.put('/updatepurchaserequestitem', updatePurchaseRequestItem);
 
 module.exports = router;
