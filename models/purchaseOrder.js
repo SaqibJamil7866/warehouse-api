@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
 const PurchaseOrderSchema = new mongoose.Schema({
-    uuid: {
-        type: String
-    },
     purchaseOrderNo: {
-        type: String,
-        required: [true, 'Please add order number']
+        type: String
     },
     date: {
         type: Date,
@@ -17,34 +13,38 @@ const PurchaseOrderSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add generated data']
     },
+    paymentTerm: {
+        String
+    },
+    shippingTerm: {
+        type: String
+    },
     vendorId: {
         type: mongoose.Schema.ObjectId,
         ref: 'Vendor',
         required: [true, 'Please select Vendor']
     },
+    vendorEmail: {
+        type: String
+        // required: [true, 'Please add an email'],
+        // unique: true,
+        // match: [
+        // /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/,
+        // 'Please add a valid email'
+        // ]
+    },
+    vendorPhoneNo: {
+        type: String
+    },
+    vendorAddress: {
+        type: String
+    },
     status: {
         type: String,
         required: true
     },
-    itemCode: {
-        type: String,
-        required: [true, 'Please add item code']
-    },
-    description: {
-        type: String,
-        required: [true, 'Please add item code']
-    },
-    currentQty: {
-        type: String,
-        required: [true, 'Please add current qty']
-    },
-    reqQty: {
-        type: String,
-        required: [true, 'Please add req qty']
-    },
     comments: {
-        type: String,
-        required: [true, 'Please add comments']
+        type: String
     },
     createdAt: {
         type: Date,

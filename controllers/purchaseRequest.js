@@ -1,5 +1,6 @@
 /* eslint-disable prefer-const */
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Vendor = require('../models/vendor');
@@ -28,11 +29,11 @@ exports.getPurchaseRequestItems = asyncHandler(async (req, res) => {
 });
 
 exports.addPurchaseRequest = asyncHandler(async (req, res) => {
-    const { _id, requestNo, generatedBy, date, vendorId, status, itemCode, name, description,
+    const { _id, generatedBy, date, vendorId, status, itemCode, name, description,
         currentQty, reqQty, comments } = req.body;
     const purchaseRequest = await PurchaseRequest.create({
         _id,
-        requestNo,
+        requestNo: uuidv4(),
         generatedBy,
         date,
         vendorId,
