@@ -1,44 +1,33 @@
 const mongoose = require('mongoose');
 
-const PurchaseOrderSchema = new mongoose.Schema({
-    purchaseOrderNo: {
-        type: String
-    },
-    date: {
-        type: Date,
-        default: Date.now,
-        required: [true, 'Please add date']
-    },
-    generated: {
+const MaterialReceivingSchema = new mongoose.Schema({
+    itemCode: {
         type: String,
-        required: [true, 'Please add generated data']
+        required: [true, 'Please add item code']
     },
-    paymentTerm: {
-        String
+    itemName: {
+        type: String,
+        required: [true, 'Please add item name']
     },
-    shippingTerm: {
-        type: String
+    prId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'PurchaseRequest'
+    },
+    poId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'PurchaseOrder'
     },
     vendorId: {
         type: mongoose.Schema.ObjectId,
         ref: 'Vendor',
         required: [true, 'Please select Vendor']
     },
-    vendorEmail: {
-        type: String
-    },
-    vendorPhoneNo: {
-        type: String
-    },
-    vendorAddress: {
-        type: String
-    },
     status: {
         type: String,
-        required: true
+        required: [true, 'Please select Status']
     },
-    comments: {
-        type: String
+    poSentDate: {
+        type: Date
     },
     createdAt: {
         type: Date,
@@ -50,4 +39,4 @@ const PurchaseOrderSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('PurchaseOrder', PurchaseOrderSchema);
+module.exports = mongoose.model('MaterialReceiving', MaterialReceivingSchema);

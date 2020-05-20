@@ -1,5 +1,4 @@
 /* eslint-disable prefer-const */
-const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');

@@ -34,6 +34,7 @@ const warehouseInventoryLog = require('./routes/warehouseInventoryLog');
 const purchaseRequest = require('./routes/purchaseRequest');
 const purchaseOrder = require('./routes/purchaseOrder');
 const receiveItem = require('./routes/receiveItem');
+const materialReceiving = require('./routes/materialReceiving');
 const shippingTerm = require('./routes/shippingTerm');
 
 const app = express();
@@ -73,6 +74,7 @@ app.use('/api/warehouseinventorylog', warehouseInventoryLog);
 app.use('/api/purchaserequest', purchaseRequest);
 app.use('/api/purchaseorder', purchaseOrder);
 app.use('/api/receiveitem', receiveItem);
+app.use('/api/materialreceiving', materialReceiving);
 app.use('/api/shippingterm', shippingTerm);
 
 app.use(errorHandler);
