@@ -7,7 +7,7 @@ const PurchaseOrder = require('../models/purchaseOrder');
 const MaterialReceiving = require('../models/materialReceiving');
 
 exports.getMaterialReceivings = asyncHandler(async (req, res) => {
-    const materialReceivings = await MaterialReceiving.find().populate('vendorId');
+    const materialReceivings = await MaterialReceiving.find().populate('vendorId').populate('prId').populate('poId');
     const vendors = await Vendor.find();
     const purchaseRequests = await PurchaseRequest.find();
     const purchaseOrders = await PurchaseOrder.find();
