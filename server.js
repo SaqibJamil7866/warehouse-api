@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bodyparser = require('body-parser');
 const cors = require('cors');
 const WebSocketServer = require("websocket").server;
+const cron = require("node-cron");
 const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
@@ -132,3 +133,16 @@ function sendevery5seconds(){
   connection.send(`Message ${Math.random()}`);
   setTimeout(sendevery5seconds, 10000);
 }
+
+// schedule tasks to be run on the server
+// * * * * * *
+// | | | | | |
+// | | | | | day of week
+// | | | | month
+// | | | day of month
+// | | hour
+// | minute
+// second ( optional )
+cron.schedule("* * * * *", function() {
+  console.log("running a task every minute");
+});
