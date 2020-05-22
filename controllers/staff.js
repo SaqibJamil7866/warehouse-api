@@ -2,13 +2,16 @@ const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Staff = require('../models/staff');
 const StaffType = require('../models/staffType');
+const SystemAdmin = require('../models/systemAdmin');
 
 exports.getStaff = asyncHandler(async (req, res) => {
     const staff = await Staff.find().populate('createdBySystemAdminStaffId').populate('staffTypeId');
     const staffType = await StaffType.find();
+    const systemAdmin = await SystemAdmin.find();
     const data = {
       staff,
-      staffType
+      staffType,
+      systemAdmin
     }
     res.status(200).json({ success: true, data: data });
 });

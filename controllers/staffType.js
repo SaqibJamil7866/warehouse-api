@@ -1,18 +1,21 @@
-const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const StaffType = require('../models/staffType');
+const SystemAdmin = require('../models/systemAdmin');
 
 exports.getStaffType = asyncHandler(async (req, res) => {
     const staffType = await StaffType.find().populate('createdBySystemAdminStaffId');
-    
-    res.status(200).json({ success: true, data: staffType });
+    const systemAdmin = await SystemAdmin.find();
+    const data = {
+      staffType,
+      systemAdmin
+    }
+    res.status(200).json({ success: true, data: data });
 });
 
 exports.addStaffType = asyncHandler(async (req, res) => {
     const { type, description, accessLevel, status, createdBySystemAdminStaffId, timeStamp } = req.body;
     const staffType = await StaffType.create({
-        uuid: uuidv4(),
         type,
         description,
         accessLevel,

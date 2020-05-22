@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const SystemAdmin = require('../models/systemAdmin');
@@ -11,7 +10,6 @@ exports.getSystemAdmin = asyncHandler(async (req, res) => {
 exports.addSystemAdmin = asyncHandler(async (req, res) => {
     const { username, password } = req.body;
     const systemAdmin = await SystemAdmin.create({
-        uuid: uuidv4(),
         username,
         password
     });
