@@ -1,11 +1,16 @@
-const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Staff = require('../models/staff');
+const StaffType = require('../models/staffType');
 
 exports.getStaff = asyncHandler(async (req, res) => {
     const staff = await Staff.find().populate('createdBySystemAdminStaffId').populate('staffTypeId');
-    res.status(200).json({ success: true, data: staff });
+    const staffType = await StaffType.find();
+    const data = {
+      staff,
+      staffType
+    }
+    res.status(200).json({ success: true, data: data });
 });
 
 exports.addStaff = asyncHandler(async (req, res) => {
@@ -14,7 +19,6 @@ exports.addStaff = asyncHandler(async (req, res) => {
         gender, dob, address, createdBySystemAdminStaffId, timeStamp, status } = req.body;
 
     const staff = await Staff.create({
-        uuid: uuidv4(),
         staffTypeId,
         firstName,
         lastName,
