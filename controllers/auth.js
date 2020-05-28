@@ -1,4 +1,3 @@
-const { v4: uuidv4 } = require('uuid');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const User = require('../models/user');
@@ -11,7 +10,6 @@ exports.register = asyncHandler(async (req, res, next) => {
 
   // Create user
   const user = await User.create({
-    uuid : uuidv4(),
     name,
     email,
     password,
@@ -38,7 +36,7 @@ exports.login = asyncHandler(async (req, res, next) => {
   // Check if password matches
   const isMatch = await user.matchPassword(password);
 
-  if (!isMatch) {
+  if(!isMatch){
     return next(new ErrorResponse('Invalid credentials', 401));
   }
   sendTokenResponse(user, 200, res);
