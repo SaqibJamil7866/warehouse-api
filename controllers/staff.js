@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const Staff = require('../models/staff');
@@ -92,11 +93,13 @@ exports.updateStaff = asyncHandler(async (req, res, next) => {
       const params = {
         name: req.body.firstName+' '+req.body.lastName,
         email: req.body.email,
-        password: req.body.password,
         staffTypeId: req.body.staffTypeId,
         staffId: req.body._id
       };
-      User.updateOne({_id: user._id}, params);
+      const salt = await bcrypt.genSalt(10);
+      params.password = await bcrypt.hash(req.body.password, salt);
+      console.log("params: ", params);
+      await User.updateOne({_id: user._id}, params);
     }
 
     res.status(200).json({ success: true, data: staff });
