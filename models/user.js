@@ -4,9 +4,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
-  uuid: {
-    type: String
-  },
   name: {
     type: String,
     required: [true, 'Please add a name']
@@ -30,7 +27,9 @@ const UserSchema = new mongoose.Schema({
     ref: 'staffType',
     required: [true, 'Please select Staff type']
   },
-  resetPasswordToken: String,
+  staffId:{
+    type: mongoose.Schema.ObjectId
+  },
   resetPasswordExpire: Date,
   createdAt: {
     type: Date,
@@ -44,10 +43,18 @@ const UserSchema = new mongoose.Schema({
 
 // Encrypt password using bcrypt
 UserSchema.pre('save', async function(next) {
+  console.log("Pre Save");
   if (!this.isModified('password')) {
     next();
   }
 
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// Encrypt password using bcrypt
+UserSchema.pre('update', async function(next) {
+  console.log("Pre update");
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });

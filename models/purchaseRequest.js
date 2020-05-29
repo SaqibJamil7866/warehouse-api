@@ -13,11 +13,11 @@ const PurchaseRequestSchema = new mongoose.Schema({
         default: Date.now,
         required: [true, 'Please add date']
     },
-    vendorId: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Vendor',
-        required: [true, 'Please select Vendor']
-    },
+    // vendorId: {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Vendor',
+    //     required: [true, 'Please select Vendor']
+    // },
     status: {
         type: String,
         required: true

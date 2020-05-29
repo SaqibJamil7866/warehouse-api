@@ -3,6 +3,7 @@ const asyncHandler = require('../middleware/async');
 const Staff = require('../models/staff');
 const StaffType = require('../models/staffType');
 const SystemAdmin = require('../models/systemAdmin');
+const User = require('../models/user');
 
 exports.getStaff = asyncHandler(async (req, res) => {
     const staff = await Staff.find().populate('createdBySystemAdminStaffId').populate('staffTypeId');
@@ -18,7 +19,7 @@ exports.getStaff = asyncHandler(async (req, res) => {
 
 exports.addStaff = asyncHandler(async (req, res) => {
 
-    const { staffTypeId, firstName, lastName, designation, contactNumber, identificationNumber, email,
+    const { staffTypeId, firstName, lastName, designation, contactNumber, identificationNumber, email, password,
         gender, dob, address, createdBySystemAdminStaffId, timeStamp, status } = req.body;
 
     const staff = await Staff.create({
@@ -29,12 +30,22 @@ exports.addStaff = asyncHandler(async (req, res) => {
         contactNumber,
         identificationNumber,
         email,
+        password,
         gender,
         dob,
         address,
         createdBySystemAdminStaffId,
         timeStamp,
         status
+    });
+
+    // Create user
+    User.create({
+      name: firstName+' '+lastName,
+      email,
+      password,
+      staffTypeId,
+      staffId: staff._id
     });
 
     res.status(200).json({ success: true, data: staff });
@@ -52,6 +63,12 @@ exports.deleteStaff = asyncHandler(async (req, res, next) => {
 
     await Staff.deleteOne({_id: _id});
 
+    // delete the record from user as well
+    const user = await User.findOne({staffId: _id});
+    if(user){
+      User.deleteOne({_id: user._id});
+    }
+
     res.status(200).json({ success: true, data: {} });
 
 });
@@ -68,6 +85,19 @@ exports.updateStaff = asyncHandler(async (req, res, next) => {
     }
 
     staff = await Staff.updateOne({_id: _id}, req.body);
+
+    const user = await User.findOne({staffId: _id});
+    if(user){
+      // update user
+      const params = {
+        name: req.body.firstName+' '+req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        staffTypeId: req.body.staffTypeId,
+        staffId: req.body._id
+      };
+      User.updateOne({_id: user._id}, params);
+    }
 
     res.status(200).json({ success: true, data: staff });
 });

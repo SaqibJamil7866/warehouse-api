@@ -13,6 +13,11 @@ const PurchaseRequestItemsSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add item code']
     },
+    vendorId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Vendor',
+        required: [true, 'Please select Vendor']
+    },
     description: {
         type: String,
         required: [true, 'Please add item code']

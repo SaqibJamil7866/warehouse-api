@@ -29,16 +29,14 @@ exports.getPurchaseRequestItems = asyncHandler(async (req, res) => {
 });
 
 exports.addPurchaseRequest = asyncHandler(async (req, res) => {
-    const { _id, generatedBy, date, vendorId, status, itemCode, name, description,
+    const { _id, generatedBy, date, status, name, description,
         currentQty, reqQty, comments } = req.body;
     const purchaseRequest = await PurchaseRequest.create({
         _id,
         requestNo: uuidv4(),
         generatedBy,
         date,
-        vendorId,
         status,
-        itemCode,
         name,
         description,
         currentQty,
@@ -50,15 +48,16 @@ exports.addPurchaseRequest = asyncHandler(async (req, res) => {
 });
 
 exports.addPurchaseRequestItem = asyncHandler(async (req, res) => {
-    let { itemCode, name, description,
+    let { itemCode, name, vendorId, description,
     currentQty, reqQty, comments, purchaseRequestId } = req.body;
-
+    console.log("req body: ", req.body);
     if(!purchaseRequestId){  // if one item already added against this purchase request
         purchaseRequestId = new mongoose.mongo.ObjectID();
     }
     const purchaseRequestItem = await PurchaseRequestItems.create({
         itemCode,
         name,
+        vendorId,
         description,
         currentQty,
         reqQty,

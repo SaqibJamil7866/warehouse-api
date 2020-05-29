@@ -27,11 +27,11 @@ router.post('/addpurchaserequest', validateParams([
         required: true,
         type: 'string'
     },
-    {
-        param_key: 'vendorId',
-        required: true,
-        type: 'string'
-    },
+    // {
+    //     param_key: 'vendorId',
+    //     required: true,
+    //     type: 'string'
+    // },
     {
         param_key: 'status',
         required: true,

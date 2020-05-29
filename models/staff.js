@@ -38,6 +38,10 @@ const staffSchema = new mongoose.Schema({
         'Please add a valid email'
         ]
     },
+    password: {
+        type: String,
+        required: [true, 'Please add password']
+    },
     gender: {
         type: String,
         required: [true, 'Please add gender']
